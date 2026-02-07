@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>sVn</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f0f0f;
+  color: white;
+}
+header {
+  padding: 15px;
+  text-align: center;
+  font-size: 24px;
+  border-bottom: 1px solid #333;
+}
+#auth, #app {
+  max-width: 500px;
+  margin: 20px auto;
+}
+input, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: #1c1c1c;
+  border: 1px solid #333;
+  color: white;
+}
+button {
+  cursor: pointer;
+}
+.post {
+  border-bottom: 1px solid #333;
+  padding: 10px;
+}
+img, video {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+.like {
+  background: none;
+  border: none;
+  color: #ff2d55;
+  font-size: 16px;
+}
+</style>
+</head>
+
+<body>
+
+<header>sVn</header>
+
+<div id="auth">
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <button onclick="signUp()">Sign Up</button>
+  <button onclick="signIn()">Sign In</button>
+</div>
+
+<div id="app" style="display:none;">
+  <input type="file" id="file">
+  <button onclick="upload()">Upload</button>
+  <div id="feed"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+// 🔴 Supabase project URL & anon public key already filled
+const supabase = supabase.createClient(
+  "https://gukdrjrcpntinjgpiqee.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd1a2RyanJjcG50aW5qZ3BpcWVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA0ODkxMTgsImV4cCI6MjA4NjA2NTExOH0.rsvm84b3oSS3miNSdE3wvLPxEW-H6ppQLkoMw4G-qrQ"
+);
+
+// AUTH FUNCTIONS
+async function signUp() {
+  const { error } = await supabase.auth.signUp({
+    email: email.value,
+    password: password.value
+  });
+  if (error) { alert(error.message); return; }
+  alert("Account created. Now sign in.");
+}
+
+async function signIn() {
+  const { error } = await supabase.auth.signInWithPassword({
+    email: email.value,
+    password: password.value
+  });
+  if (error) { alert(error.message); return; }
+  auth.style.display = "none";
+  app.style.display = "block";
+  loadFeed();
+}
+
+// UPLOAD FUNCTION
+async function upload() {
+  const file = document.getElementById("file").files[0];
+  if (!file) return alert("Select a file first");
+
+  const type = file.type.startsWith("video") ? "video" : "image";
+  const name = Date.now() + "_" + file.name;
+
+  // upload to storage
+  await supabase.storage.from("media").upload(name, file);
+  const { data } = supabase.storage.from("media").getPublicUrl(name);
+
+  // insert post in DB
+  await supabase.from("posts").insert({
+    media_url: data.publicUrl,
+    media_type: type
+  });
+
+  loadFeed();
+}
+
+// LIKE FUNCTION
+async function likePost(id) {
+  await supabase.from("likes").insert({ post_id: id });
+  loadFeed();
+}
+
+// LOAD FEED
+async function loadFeed() {
+  const { data } = await supabase
+    .from("posts")
+    .select("*, likes(count)")
+    .order("created_at", { ascending: false });
+
+  feed.innerHTML = "";
+  data.forEach(post => {
+    feed.innerHTML += `
+      <div class="post">
+        ${post.media_type === "image"
+          ? `<img src="${post.media_url}">`
+          : `<video src="${post.media_url}" controls></video>`}
+        <button class="like" onclick="likePost('${post.id}')">
+          ❤️ ${post.likes[0].count}
+        </button>
+      </div>
+    `;
+  });
+}
+</script>
+
+</body>
+</html>
