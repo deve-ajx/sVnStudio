@@ -67,37 +67,53 @@ img, video {
   <div id="feed"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-// 🔴 Supabase project URL & anon public key already filled
-const supabase = supabase.createClient(
-  "https://gukdrjrcpntinjgpiqee.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd1a2RyanJjcG50aW5qZ3BpcWVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA0ODkxMTgsImV4cCI6MjA4NjA2NTExOH0.rsvm84b3oSS3miNSdE3wvLPxEW-H6ppQLkoMw4G-qrQ"
-);
+const SUPABASE_URL = "https://gukdrjrcpntinjgpiqee.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd1a2RyanJjcG50aW5qZ3BpcWVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA0ODkxMTgsImV4cCI6MjA4NjA2NTExOH0.rsvm84b3oSS3miNSdE3wvLPxEW-H6ppQLkoMw4G-qrQ";
 
-// AUTH FUNCTIONS
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// DOM
+const authDiv = document.getElementById("auth");
+const appDiv = document.getElementById("app");
+const feed = document.getElementById("feed");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+
+// AUTH STATE
+supabaseClient.auth.onAuthStateChange((_event, session) => {
+  if (session) {
+    authDiv.style.display = "none";
+    appDiv.style.display = "block";
+    loadFeed();
+  } else {
+    authDiv.style.display = "block";
+    appDiv.style.display = "none";
+  }
+});
+
+// SIGN UP
 async function signUp() {
-  const { error } = await supabase.auth.signUp({
-    email: email.value,
-    password: password.value
+  const { error } = await supabaseClient.auth.signUp({
+    email: emailInput.value,
+    password: passwordInput.value
   });
-  if (error) { alert(error.message); return; }
+  if (error) return alert(error.message);
   alert("Account created. Now sign in.");
 }
 
+// SIGN IN
 async function signIn() {
-  const { error } = await supabase.auth.signInWithPassword({
-    email: email.value,
-    password: password.value
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email: emailInput.value,
+    password: passwordInput.value
   });
-  if (error) { alert(error.message); return; }
-  auth.style.display = "none";
-  app.style.display = "block";
-  loadFeed();
+  if (error) return alert(error.message);
 }
 
-// UPLOAD FUNCTION
+// UPLOAD
 async function upload() {
   const file = document.getElementById("file").files[0];
   if (!file) return alert("Select a file first");
@@ -105,12 +121,19 @@ async function upload() {
   const type = file.type.startsWith("video") ? "video" : "image";
   const name = Date.now() + "_" + file.name;
 
-  // upload to storage
-  await supabase.storage.from("media").upload(name, file);
-  const { data } = supabase.storage.from("media").getPublicUrl(name);
+  const { error } = await supabaseClient
+    .storage
+    .from("media")
+    .upload(name, file);
 
-  // insert post in DB
-  await supabase.from("posts").insert({
+  if (error) return alert(error.message);
+
+  const { data } = supabaseClient
+    .storage
+    .from("media")
+    .getPublicUrl(name);
+
+  await supabaseClient.from("posts").insert({
     media_url: data.publicUrl,
     media_type: type
   });
@@ -118,28 +141,32 @@ async function upload() {
   loadFeed();
 }
 
-// LIKE FUNCTION
+// LIKE
 async function likePost(id) {
-  await supabase.from("likes").insert({ post_id: id });
+  await supabaseClient.from("likes").insert({ post_id: id });
   loadFeed();
 }
 
-// LOAD FEED
+// FEED
 async function loadFeed() {
-  const { data } = await supabase
+  const { data, error } = await supabaseClient
     .from("posts")
     .select("*, likes(count)")
     .order("created_at", { ascending: false });
+
+  if (error) return alert(error.message);
 
   feed.innerHTML = "";
   data.forEach(post => {
     feed.innerHTML += `
       <div class="post">
-        ${post.media_type === "image"
-          ? `<img src="${post.media_url}">`
-          : `<video src="${post.media_url}" controls></video>`}
+        ${
+          post.media_type === "image"
+            ? `<img src="${post.media_url}">`
+            : `<video src="${post.media_url}" controls></video>`
+        }
         <button class="like" onclick="likePost('${post.id}')">
-          ❤️ ${post.likes[0].count}
+          ❤️ ${post.likes?.[0]?.count || 0}
         </button>
       </div>
     `;
