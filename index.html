@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>sVn Studio - Data & Digital Services</title>
+<title>sVn Studio</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
@@ -18,23 +18,22 @@ font-family:'Poppins', sans-serif;
 body{
 background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 color:white;
-scroll-behavior:smooth;
+overflow-x:hidden;
 }
 
 header{
 text-align:center;
-padding:80px 20px;
+padding:60px 20px;
 }
 
-header h1{
-font-size:50px;
-animation: fadeDown 1.5s ease;
+.hero-img{
+width:250px;
+margin-bottom:20px;
+animation: float 3s ease-in-out infinite;
 }
 
-header p{
-opacity:0.8;
-margin-top:10px;
-animation: fadeUp 2s ease;
+h1{
+font-size:45px;
 }
 
 section{
@@ -50,47 +49,62 @@ padding:25px;
 margin-bottom:30px;
 backdrop-filter: blur(15px);
 border:1px solid rgba(255,255,255,0.2);
-transition:0.4s;
 }
 
-.glass:hover{
-transform: translateY(-10px);
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
+.networks{
+display:flex;
+justify-content:center;
+gap:50px;
+flex-wrap:wrap;
+margin-top:30px;
 }
 
-h2{
-margin-bottom:20px;
-font-size:28px;
+.networks img{
+width:120px;
+cursor:pointer;
+transition:0.3s;
 }
 
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+.networks img:hover{
+transform:scale(1.1);
+}
+
+.mtn{
+animation:bounce1 2s infinite;
+}
+
+.airtel{
+animation:bounce2 2.5s infinite;
+}
+
+@keyframes bounce1{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-15px);}
+}
+
+@keyframes bounce2{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-20px);}
+}
+
+.hidden{
+display:none;
 }
 
 button{
-padding:10px 20px;
+padding:12px 25px;
 background:white;
 color:#203a43;
 border:none;
 border-radius:30px;
 cursor:pointer;
 font-weight:bold;
-transition:0.3s;
+margin-top:15px;
 }
 
 button:hover{
 background:#00f2fe;
 color:white;
-}
-
-input,select{
-width:100%;
-padding:10px;
-margin-bottom:15px;
-border:none;
-border-radius:8px;
 }
 
 footer{
@@ -100,14 +114,14 @@ background:rgba(0,0,0,0.3);
 margin-top:40px;
 }
 
-@keyframes fadeDown{
-from{opacity:0; transform:translateY(-40px);}
-to{opacity:1; transform:translateY(0);}
+a{
+color:#00f2fe;
+text-decoration:none;
 }
 
-@keyframes fadeUp{
-from{opacity:0; transform:translateY(40px);}
-to{opacity:1; transform:translateY(0);}
+@keyframes float{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
 }
 </style>
 </head>
@@ -115,86 +129,94 @@ to{opacity:1; transform:translateY(0);}
 <body>
 
 <header>
+
+<!-- Transparent Nigerian teen image -->
+<img src="https://i.ibb.co/4pDNDk1/nigerian-teen-phone.png" class="hero-img">
+
 <h1>sVn Studio</h1>
-<p>Your Trusted Data, Airtime & Exam Pin Vendor</p>
+<p>Your Trusted Data & Airtime Vendor</p>
+
 </header>
 
 <section>
-<h2>Our Products</h2>
-<div class="products">
+<h2 style="text-align:center;">Choose Network</h2>
 
-<div class="glass">
-<h3>MTN SME Data</h3>
+<div class="networks">
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MTN_Logo.svg" 
+class="mtn"
+onclick="toggleMTN()">
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Airtel_logo.svg" 
+class="airtel"
+onclick="toggleAirtel()">
+
+</div>
+
+</section>
+
+<section id="mtnSection" class="glass hidden">
+<h2>MTN Data & Airtime</h2>
 <p>1GB – ₦270</p>
 <p>2GB – ₦540</p>
 <p>5GB – ₦1,350</p>
-</div>
+<p>Airtime – 2% Discount</p>
 
-<div class="glass">
-<h3>Airtel Data</h3>
+<a href="https://wa.me/2349166704471" target="_blank">
+<button>Buy via WhatsApp</button>
+</a>
+</section>
+
+<section id="airtelSection" class="glass hidden">
+<h2>Airtel Data & Airtime</h2>
 <p>1GB – ₦300</p>
 <p>2GB – ₦600</p>
-</div>
+<p>Airtime – 2% Discount</p>
 
-<div class="glass">
-<h3>Exam Pins</h3>
+<a href="https://wa.me/2349166704471" target="_blank">
+<button>Buy via WhatsApp</button>
+</a>
+</section>
+
+<section class="glass">
+<h2>Exam Pins</h2>
 <p>WAEC – ₦4,800</p>
 <p>NECO – ₦4,500</p>
 <p>JAMB – ₦5,500</p>
-</div>
 
-</div>
+<a href="https://wa.me/2349166704471" target="_blank">
+<button>Buy via WhatsApp</button>
+</a>
 </section>
 
-<section>
-<h2>Place an Order</h2>
-<div class="glass">
-<form action="https://formsubmit.co/your-email@gmail.com" method="POST">
-<input type="text" placeholder="Full Name" required>
-<input type="text" placeholder="Phone Number" required>
-
-<select>
-<option>MTN 1GB</option>
-<option>MTN 2GB</option>
-<option>Airtel 1GB</option>
-<option>WAEC PIN</option>
-<option>NECO TOKEN</option>
-<option>JAMB PIN</option>
-</select>
-
-<input type="text" placeholder="Payment Reference">
-<button type="submit">Submit Order</button>
-</form>
-</div>
-</section>
-
-<section>
-<h2>Our Location</h2>
-<div class="glass">
-<p>Maiduguri, Giwa Barrack</p>
+<section class="glass">
+<h2>Location</h2>
+<p>Maiduguri – Giwa Barrack</p>
 <p>Borno State, Nigeria</p>
-</div>
 </section>
 
-<section>
-<h2>Our Team</h2>
-<div class="glass">
-<p>sVn Studio Team</p>
-<p>Dedicated to fast delivery & trusted service.</p>
-<p>Website: <a href="https://svnstudio.kesug.com" target="_blank" style="color:#00f2fe;">svnstudio.kesug.com</a></p>
-</div>
-</section>
-
-<section>
-<h2>Follow Us</h2>
-<div class="glass">
-<p>Instagram: @svnstudi0</p>
-</div>
+<section class="glass">
+<h2>Connect With Us</h2>
+<p>WhatsApp: 09166704471</p>
+<p>Instagram: <a href="https://instagram.com/svnstudi0" target="_blank">@svnstudi0</a></p>
+<p>Team Website: <a href="https://svnstudio.kesug.com" target="_blank">svnstudio.kesug.com</a></p>
 </section>
 
 <footer>
-<p>© 2026 sVn Studio | All Rights Reserved</p>
+© 2026 sVn Studio | All Rights Reserved
 </footer>
+
+<script>
+function toggleMTN(){
+document.getElementById("mtnSection").classList.toggle("hidden");
+document.getElementById("airtelSection").classList.add("hidden");
+}
+
+function toggleAirtel(){
+document.getElementById("airtelSection").classList.toggle("hidden");
+document.getElementById("mtnSection").classList.add("hidden");
+}
+</script>
 
 </body>
 </html>
