@@ -3,234 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>sVn Studio</title>
-
+<title>Maiduguri iPhone Store</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins', sans-serif;
-}
+/* Reset & font */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:white;overflow-x:hidden;}
+h1,h2{font-weight:700;}
+p{font-weight:300;}
 
-body{
-background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-color:white;
-overflow-x:hidden;
-}
+/* Header */
+header{position:relative;text-align:center;padding:60px 20px;}
+header h1{font-size:45px;margin-top:20px;}
+header p{font-size:18px;margin-top:10px;}
+.logo{position:absolute;top:20px;left:20px;width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid white;box-shadow:0 5px 15px rgba(0,0,0,0.4);animation:bounceLogo 2s infinite;}
+@keyframes bounceLogo{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
 
-header{
-position:relative;
-text-align:center;
-padding:60px 20px;
-}
+/* Hero image */
+.hero-img{width:250px;margin-bottom:20px;animation: float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
 
-.logo{
-position:absolute;
-top:20px;
-left:20px;
-width:80px;
-height:80px;
-border-radius:50%;
-object-fit:cover;
-border:3px solid white;
-box-shadow:0 5px 15px rgba(0,0,0,0.4);
-}
+/* Sections */
+section{padding:60px 20px;max-width:1100px;margin:auto;}
+.glass{background: rgba(255,255,255,0.1);border-radius:15px;padding:25px;margin-bottom:30px;backdrop-filter: blur(15px);border:1px solid rgba(255,255,255,0.2);transition:0.5s;}
+.glass:hover{transform:translateY(-5px);}
 
-.hero-img{
-width:250px;
-margin-bottom:20px;
-animation: float 3s ease-in-out infinite;
-}
+/* Product Grid */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:25px;margin-top:30px;}
+.product-card{background: rgba(255,255,255,0.1);border-radius:15px;padding:15px;text-align:center;cursor:pointer;transition:0.3s;}
+.product-card img{width:100%;border-radius:15px;}
+.product-card:hover{transform:scale(1.05);box-shadow:0 10px 20px rgba(0,0,0,0.4);}
 
-h1{
-font-size:45px;
-}
+/* CEO Section */
+.ceo{display:flex;align-items:center;gap:30px;flex-wrap:wrap;background: rgba(255,255,255,0.1);padding:30px;border-radius:15px;backdrop-filter: blur(15px);border:1px solid rgba(255,255,255,0.2);}
+.ceo img{width:200px;border-radius:15px;object-fit:cover;box-shadow:0 5px 15px rgba(0,0,0,0.4);}
+.ceo-info h2{font-size:28px;margin-bottom:10px;}
+.ceo-info p{font-size:16px;}
 
-section{
-padding:60px 20px;
-max-width:1100px;
-margin:auto;
-}
+/* Floating WhatsApp Button */
+.whatsapp-float{position:fixed;bottom:20px;right:20px;background:#25D366;color:white;padding:15px;border-radius:50%;font-size:24px;text-decoration:none;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 15px rgba(0,0,0,0.3);animation:bounceWhats 2s infinite;}
+@keyframes bounceWhats{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
 
-.glass{
-background: rgba(255,255,255,0.1);
-border-radius:15px;
-padding:25px;
-margin-bottom:30px;
-backdrop-filter: blur(15px);
-border:1px solid rgba(255,255,255,0.2);
-}
-
-.networks{
-display:flex;
-justify-content:center;
-gap:50px;
-flex-wrap:wrap;
-margin-top:30px;
-}
-
-.networks img{
-width:120px;
-cursor:pointer;
-transition:0.3s;
-}
-
-.networks img:hover{
-transform:scale(1.1);
-}
-
-.mtn{
-animation:bounce1 2s infinite;
-}
-
-.airtel{
-animation:bounce2 2.5s infinite;
-}
-
-@keyframes bounce1{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-15px);}
-}
-
-@keyframes bounce2{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-20px);}
-}
-
-.hidden{
-display:none;
-}
-
-button{
-padding:12px 25px;
-background:white;
-color:#203a43;
-border:none;
-border-radius:30px;
-cursor:pointer;
-font-weight:bold;
-margin-top:15px;
-}
-
-button:hover{
-background:#00f2fe;
-color:white;
-}
-
-footer{
-text-align:center;
-padding:30px;
-background:rgba(0,0,0,0.3);
-margin-top:40px;
-}
-
-a{
-color:#00f2fe;
-text-decoration:none;
-}
-
-@keyframes float{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-10px);}
-}
+/* Footer */
+footer{text-align:center;padding:30px;background:rgba(0,0,0,0.3);margin-top:40px;}
+a{color:#00f2fe;text-decoration:none;}
+button{padding:12px 25px;background:white;color:#203a43;border:none;border-radius:30px;cursor:pointer;font-weight:bold;margin-top:15px;transition:0.3s;}
+button:hover{background:#00f2fe;color:white;}
 </style>
 </head>
-
 <body>
 
+<!-- Header -->
 <header>
-
-<!-- Logo at top-left -->
-<img src="https://files.catbox.moe/z18y6s.png" class="logo">
-
-<!-- Transparent Nigerian teen image -->
+<img src="https://files.catbox.moe/ulc5we.jpeg" class="logo">
+<h1>Maiduguri iPhone Store</h1>
+<p>Affordable iPhones. High Quality. Maiduguri, Borno.</p>
 <img src="https://i.ibb.co/4pDNDk1/nigerian-teen-phone.png" class="hero-img">
-
-<h1>sVn Studio</h1>
-<p>Your Trusted Data & Airtime Vendor</p>
-
 </header>
 
+<!-- Products Section -->
 <section>
-<h2 style="text-align:center;">Choose Network</h2>
-
-<div class="networks">
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MTN_Logo.svg" 
-class="mtn"
-onclick="toggleMTN()">
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Airtel_logo.svg" 
-class="airtel"
-onclick="toggleAirtel()">
-
+<h2 style="text-align:center;">Our Products</h2>
+<div class="product-grid">
+<!-- Product cards -->
+<img src="https://files.catbox.moe/dlup5f.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/hy3p36.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/n142aa.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/4zmhhu.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/327urf.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/wuox9l.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/3wf8sd.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/hm2i9e.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/tutrhl.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/ov8me2.png" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/fwoklz.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/d30v1h.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/1glze4.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/20vls8.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/rqkxju.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/giqdxz.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/lkje3v.jpeg" class="product-card" onclick="showPrice('$100')">
+<img src="https://files.catbox.moe/tx6gix.jpeg" class="product-card" onclick="showPrice('$100')">
 </div>
-
 </section>
 
-<section id="mtnSection" class="glass hidden">
-<h2>MTN Data & Airtime</h2>
-<p>1GB – ₦270</p>
-<p>2GB – ₦540</p>
-<p>5GB – ₦1,350</p>
-<p>Airtime – 2% Discount</p>
-
-<a href="https://wa.me/2349166704471" target="_blank">
-<button>Buy via WhatsApp</button>
-</a>
+<!-- CEO Section -->
+<section>
+<h2 style="text-align:center;">Our CEO</h2>
+<div class="ceo">
+<img src="https://files.catbox.moe/bgam4v.jpeg" alt="CEO Muhammad Modu Aji">
+<div class="ceo-info">
+<h2>Muhammad Modu Aji</h2>
+<p>CEO</p>
+<p>Leading innovation in phone sales in Maiduguri.</p>
+</div>
+</div>
 </section>
 
-<section id="airtelSection" class="glass hidden">
-<h2>Airtel Data & Airtime</h2>
-<p>1GB – ₦300</p>
-<p>2GB – ₦600</p>
-<p>Airtime – 2% Discount</p>
-
-<a href="https://wa.me/2349166704471" target="_blank">
-<button>Buy via WhatsApp</button>
-</a>
-</section>
-
-<section class="glass">
-<h2>Exam Pins</h2>
-<p>WAEC – ₦4,800</p>
-<p>NECO – ₦4,500</p>
-<p>JAMB – ₦5,500</p>
-
-<a href="https://wa.me/2349166704471" target="_blank">
-<button>Buy via WhatsApp</button>
-</a>
-</section>
-
+<!-- Location Section -->
 <section class="glass">
 <h2>Location</h2>
-<p>Maiduguri – Giwa Barrack</p>
-<p>Borno State, Nigeria</p>
+<p>Maiduguri – Borno State, Nigeria</p>
 </section>
 
+<!-- Contact Section -->
 <section class="glass">
-<h2>Connect With Us</h2>
-<p>WhatsApp: 09166704471</p>
+<h2>Contact Us</h2>
+<p>WhatsApp: <a href="https://wa.me/2348134654462" target="_blank">+234 813 465 4462</a></p>
 <p>Instagram: <a href="https://instagram.com/svnstudi0" target="_blank">@svnstudi0</a></p>
-<p>Team Website: <a href="https://svnstudio.kesug.com" target="_blank">svnstudio.kesug.com</a></p>
 </section>
 
+<!-- Footer -->
 <footer>
-© 2026 sVn Studio | All Rights Reserved
+© 2026 Maiduguri iPhone Store | All Rights Reserved
 </footer>
 
-<script>
-function toggleMTN(){
-document.getElementById("mtnSection").classList.toggle("hidden");
-document.getElementById("airtelSection").classList.add("hidden");
-}
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/2348134654462" class="whatsapp-float" target="_blank">
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="30">
+</a>
 
-function toggleAirtel(){
-document.getElementById("airtelSection").classList.toggle("hidden");
-document.getElementById("mtnSection").classList.add("hidden");
+<!-- Scripts -->
+<script>
+function showPrice(price){
+alert("Price: " + price + "\nContact via WhatsApp to buy!");
 }
 </script>
 
