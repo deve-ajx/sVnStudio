@@ -30,16 +30,16 @@ header p{margin:15px 0;font-size:1.2rem;color:#ddd;}
 .btn{padding:12px 20px;background:#ccc;color:#111;border:none;border-radius:5px;font-weight:600;cursor:pointer;transition:0.3s;margin:5px;}
 .btn:hover{background:#fff;}
 
-/* Hamburger Menu */
-.hamburger{position:absolute;top:20px;right:20px;z-index:5;cursor:pointer;width:35px;height:25px;display:flex;flex-direction:column;justify-content:space-between;}
-.hamburger div{height:5px;background:#fff;border-radius:2px;transition:0.3s;}
-.nav-menu{position:absolute;top:60px;right:20px;background:#2a2a2a;border-radius:10px;padding:10px;display:none;flex-direction:column;z-index:4;}
+/* Hamburger Menu / Navigation */
+.hamburger{position:absolute;top:25px;left:110px;z-index:5;cursor:pointer;width:30px;height:20px;display:flex;flex-direction:column;justify-content:space-between;animation:bounce 1.5s infinite;}
+.hamburger div{height:3px;background:#fff;border-radius:2px;transition:0.3s;}
+.nav-menu{position:absolute;top:60px;left:110px;background:#2a2a2a;border-radius:10px;padding:10px;display:none;flex-direction:column;z-index:4;}
 .nav-menu a{padding:10px 15px;color:#fff;text-decoration:none;transition:0.3s;}
 .nav-menu a:hover{background:#f5c518;color:#000;border-radius:5px;}
 
 /* Bouncing Image Section */
 .bounce-section{text-align:center;padding:40px 0;}
-.bounce-section img{width:250px;border-radius:10px;animation:bounce 2s infinite;}
+.bounce-section img{width:250px;border-radius:10px;animation:bounce 1.5s infinite;}
 @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-20px);}}
 
 /* Sections */
@@ -67,7 +67,7 @@ h2{text-align:center;margin-bottom:30px;color:#ccc;}
 .whatsapp{position:fixed;bottom:20px;right:20px;background:#25D366;color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;text-decoration:none;}
 
 /* Updates Section */
-.updates{position:fixed;top:80px;right:20px;background:#f5c518;color:#000;padding:15px 20px;border-radius:10px;font-weight:700;cursor:pointer;z-index:1000;}
+.updates{position:absolute;top:25px;left:150px;background:#f5c518;color:#000;padding:10px 15px;border-radius:10px;font-weight:700;cursor:pointer;animation:bounce 1.5s infinite;z-index:6;}
 .video-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1000;}
 .video-content{background:#222;padding:20px;border-radius:10px;max-width:700px;width:90%;text-align:center;position:relative;}
 .video-content video{width:100%;border-radius:10px;object-fit:cover;margin-bottom:15px;}
@@ -82,7 +82,7 @@ h2{text-align:center;margin-bottom:30px;color:#ccc;}
 
 /* Footer Bouncing Image */
 .footer-bounce{text-align:center;padding:40px 0;}
-.footer-bounce img{width:250px;border-radius:10px;animation:bounce 2s infinite;margin-bottom:15px;}
+.footer-bounce img{width:250px;border-radius:10px;animation:bounce 1.5s infinite;margin-bottom:15px;}
 .footer-bounce p{font-size:1.5rem;color:#f5c518;font-weight:700;}
 
 /* Footer */
@@ -96,11 +96,12 @@ footer{text-align:center;padding:20px;background:#111;}
 <div class="logo"><img src="https://files.catbox.moe/z18y6s.png"></div>
 <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
 <div class="nav-menu" id="navMenu">
-  <a href="#products">Our Products</a>
   <a href="#about">About Us</a>
+  <a href="#products">Our Products</a>
   <a href="#ceo">CEO</a>
   <a href="#post-gallery">Gallery</a>
 </div>
+<div class="updates" id="updatesBtn">Updates</div>
 <div class="header-content">
 <h1>EmAji <span>Phones Store</span></h1>
 <p>Premium Smartphones. Trusted Quality. Best Prices.</p>
@@ -177,7 +178,6 @@ EmAji Phones Store located in Borno, Nigeria provides premium smartphones at aff
 <a href="https://wa.me/234XXXXXXXXXX" class="whatsapp">💬</a>
 
 <!-- Updates Section -->
-<div class="updates" id="updatesBtn">Updates</div>
 <div class="video-modal" id="videoModal">
 <div class="video-content">
 <span class="close" id="videoClose">&times;</span>
@@ -210,22 +210,17 @@ window.addEventListener('click',e=>{if(e.target==modal) modal.style.display='non
 function buyNow(){const phone=modalName.textContent;window.open(`https://wa.me/234XXXXXXXXXX?text=Hello! I want to buy ${phone}`,'_blank');}
 
 // Updates Video Modal
-const videoBtn=document.getElementById('updatesBtn');
+const updatesBtn=document.getElementById('updatesBtn');
 const videoModal=document.getElementById('videoModal');
 const videoPlayer=document.getElementById('videoPlayer');
 const videoClose=document.getElementById('videoClose');
 const videoThumbs=document.getElementById('videoThumbs');
-videoBtn.addEventListener('click',()=>{videoModal.style.display='flex';});
+
+updatesBtn.addEventListener('click',()=>{videoModal.style.display='flex';});
 videoClose.addEventListener('click',()=>{videoModal.style.display='none';videoPlayer.pause();});
 window.addEventListener('click',e=>{if(e.target==videoModal){videoModal.style.display='none';videoPlayer.pause();}});
-
-// Click on video thumbnails
-videoThumbs.querySelectorAll('img').forEach(thumb=>{
-thumb.addEventListener('click',()=>{
-videoPlayer.src=thumb.dataset.video;
-videoPlayer.play();
-});
-});
+videoThumbs.querySelectorAll('img').forEach(thumb=>{thumb.addEventListener('click',()=>{videoPlayer.src=thumb.dataset.video;videoPlayer.play();});});
 </script>
+
 </body>
 </html>
