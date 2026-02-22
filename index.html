@@ -246,7 +246,6 @@ color:#000;
 }
 
 /* CEO */
-
 .ceo{text-align:center;}
 .ceo img{
 width:220px;
@@ -391,6 +390,7 @@ Allah loves those who seek Him sincerely.” (DAY5)
 
 <div id="adminPanel" style="display:none;margin-top:30px;">
 <h3>Owner Panel</h3>
+<input type="file" id="postImage" accept="image/*" style="margin-bottom:10px;">
 <textarea id="postContent" placeholder="Write update..." style="width:100%;height:100px;"></textarea>
 <button class="glass-btn" onclick="addPost()">Post Update</button>
 
@@ -418,9 +418,9 @@ localStorage.setItem('mode',document.body.classList.contains('light')?'light':'d
 if(localStorage.getItem('mode')==='light'){document.body.classList.add('light');}
 
 // ===================
-// OWNER PANEL SCRIPT
+// OWNER PANEL SCRIPT (text + image)
 // ===================
-const SECRET = "mymagickey"; // owner secret
+const SECRET = "mymagickey";
 
 function showAdmin(){
   const key = prompt("Enter Owner Secret");
@@ -443,24 +443,44 @@ function loadPosts(){
   adminDiv.innerHTML = "";
 
   posts.forEach((p,i)=>{
-    // public posts
-    publicDiv.innerHTML += `<div class="card"><p>${p}</p></div>`;
-    // admin posts with delete
-    adminDiv.innerHTML += `<div class="card"><p>${p}</p>
-      <button class="glass-btn" onclick="deletePost(${i})">Delete</button>
-    </div>`;
+    let postHTML = `<div class="card">`;
+    if(p.image) postHTML += `<img src="${p.image}" style="width:100%;border-radius:10px;margin-bottom:10px;">`;
+    if(p.text) postHTML += `<p>${p.text}</p>`;
+    postHTML += `</div>`;
+    publicDiv.innerHTML += postHTML;
+
+    let adminHTML = `<div class="card">`;
+    if(p.image) adminHTML += `<img src="${p.image}" style="width:100%;border-radius:10px;margin-bottom:10px;">`;
+    if(p.text) adminHTML += `<p>${p.text}</p>`;
+    adminHTML += `<button class="glass-btn" onclick="deletePost(${i})">Delete</button></div>`;
+    adminDiv.innerHTML += adminHTML;
   });
 }
 
 function addPost(){
   const content = document.getElementById('postContent').value;
-  if(!content) return;
+  const imageInput = document.getElementById('postImage');
+  
+  if(!content && !imageInput.files[0]) return;
 
-  const posts = JSON.parse(localStorage.getItem('posts')||"[]");
-  posts.unshift(content);
-  localStorage.setItem('posts', JSON.stringify(posts));
-  document.getElementById('postContent').value="";
-  loadPosts();
+  if(imageInput.files[0]){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      const posts = JSON.parse(localStorage.getItem('posts')||"[]");
+      posts.unshift({text: content, image: e.target.result});
+      localStorage.setItem('posts', JSON.stringify(posts));
+      document.getElementById('postContent').value="";
+      imageInput.value = "";
+      loadPosts();
+    }
+    reader.readAsDataURL(imageInput.files[0]);
+  } else {
+    const posts = JSON.parse(localStorage.getItem('posts')||"[]");
+    posts.unshift({text: content, image: null});
+    localStorage.setItem('posts', JSON.stringify(posts));
+    document.getElementById('postContent').value="";
+    loadPosts();
+  }
 }
 
 function deletePost(index){
