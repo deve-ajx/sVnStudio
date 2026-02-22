@@ -15,11 +15,11 @@
 --highlight:#f5c518;
 --glass:rgba(255,255,255,0.1);
 }
-body{background:var(--bg);color:var(--text);transition:0.4s;}
+body{background:var(--bg);color:var(--text);transition:0.4s;overflow-x:hidden;}
 body.light{
 --bg:#f5f5f5;
---text:#fff; 
---card:#1c1c1c; 
+--text:#fff;
+--card:#1c1c1c;
 --highlight:#f5c518;
 --glass:rgba(255,255,255,0.1);
 }
@@ -30,7 +30,6 @@ body.light .whatsapp{
 color:#fff;
 }
 .container{width:90%;max-width:1200px;margin:auto;}
-/* HEADER */
 header{
 position:relative;
 height:95vh;
@@ -171,12 +170,12 @@ border-radius:10px;
 margin-bottom:10px;
 }
 body.light .card {
-    background: #fff;   
-    color: black;       
+    background: #fff;
+    color: black;
 }
 body.light .card h3,
 body.light .card p {
-    color: black;       
+    color: black;
 }
 .modal{
 display:none;
@@ -282,16 +281,28 @@ background:#111;
 color:#fff;
 }
 
-/* NEW OWNER PANEL STYLES */
-#adminPanel input, #adminPanel textarea{
-margin-bottom:10px;
-padding:10px;
-border-radius:8px;
-border:1px solid #ccc;
-width:100%;
+/* OWNER PANEL FIXES */
+#ownerPosts {
+  overflow-x: hidden;
 }
-#adminPanel button{
-margin-top:5px;
+#publicPosts, #adminPosts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+#publicPosts .card, #adminPosts .card {
+  flex: 1 1 300px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#adminPanel input, #adminPanel textarea, #adminPanel button {
+  width: 100%;
+  box-sizing: border-box;
+}
+#adminPanel video, #adminPanel img, #publicPosts video, #publicPosts img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
 }
 </style>
 </head>
@@ -339,13 +350,74 @@ Allah loves those who seek Him sincerely.” (DAY5)
 <section class="container" id="products">
 <h2>Our Premium iPhones</h2>
 <div class="products">
-<!-- all your product cards remain unchanged -->
+
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/4zmhhu.jpeg">
+<h3>iPhone 14 Pro Max (256GB)</h3>
+<p class="price" style="display:none;">₦650,000</p>
+</div>
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/fwoklz.jpeg">
+<h3>iPhone 13 (128GB)</h3>
+<p class="price" style="display:none;">₦450,000</p>
+</div>
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/366zoj.jpeg">
+<h3>iPhone 13 Pro Max (256GB)</h3>
+<p class="price" style="display:none;">₦550,000</p>
+</div>
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/d30v1h.jpeg">
+<h3>iPhone X (Face ID Disabled)</h3>
+<p class="price" style="display:none;">₦70,000</p>
+</div>
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/327urf.jpeg">
+<h3>iPhone Model A</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/p7i5qs.jpeg">
+<h3>iPhone Model B</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/jtva4c.jpeg">
+<h3>iPhone Model C</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/1glze4.jpeg">
+<h3>iPhone Model D</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/07tprn.jpeg">
+<h3>iPhone Model E</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/w590mh.jpeg">
+<h3>iPhone Model F</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/9414gn.jpeg">
+<h3>iPhone Model G</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/w0x261.jpeg">
+<h3>iPhone Model H</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+
 </div>
 </section>
 
-<!-- SOLD OUT & CEO sections remain unchanged -->
+<!-- SOLD OUT, CEO sections remain unchanged -->
 
-<!-- NEW OWNER PANEL SECTION START -->
+<!-- OWNER PANEL SECTION -->
 <section class="container" id="ownerPosts">
 <h2>Store Updates</h2>
 <div id="publicPosts"></div>
@@ -359,7 +431,6 @@ Allah loves those who seek Him sincerely.” (DAY5)
 </div>
 <button class="glass-btn" onclick="showAdmin()">Owner Only</button>
 </section>
-<!-- NEW OWNER PANEL SECTION END -->
 
 <footer>
 © 2026 EmAji Phones Store. All Rights Reserved.
@@ -378,7 +449,7 @@ localStorage.setItem('mode',document.body.classList.contains('light')?'light':'d
 }
 if(localStorage.getItem('mode')==='light'){document.body.classList.add('light');}
 
-// YOUR EXISTING MODALS AND BUY BUTTON FUNCTIONS REMAIN UNCHANGED
+// Product Modal, Update & CEO functions remain unchanged
 
 // OWNER PANEL SCRIPT
 const SECRET = "mymagickey";
@@ -397,10 +468,8 @@ function loadPosts(){
   const posts = JSON.parse(localStorage.getItem('posts')||"[]");
   const publicDiv = document.getElementById('publicPosts');
   const adminDiv = document.getElementById('adminPosts');
-  
   publicDiv.innerHTML = "";
   adminDiv.innerHTML = "";
-
   posts.forEach((p,i)=>{
     let html = `<div class="card">`;
     if(p.image) html += `<img src="${p.image}">`;
@@ -478,7 +547,7 @@ function deletePost(i){
   loadPosts();
 }
 
-// load public posts on page load
+// Load public posts on page load
 loadPosts();
 </script>
 
