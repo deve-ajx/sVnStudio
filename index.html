@@ -30,10 +30,8 @@ body.light .whatsapp{
 color:#fff;
 }
 
-/* Container */
 .container{width:90%;max-width:1200px;margin:auto;}
 
-/* HEADER */
 header{
 position:relative;
 height:95vh;
@@ -85,7 +83,6 @@ color:#000;
 transform:translateY(-3px);
 }
 
-/* HAMBURGER */
 .hamburger{
 position:absolute;
 top:25px;
@@ -126,11 +123,9 @@ color:#000;
 border-radius:5px;
 }
 
-/* SECTIONS */
 section{padding:80px 0;}
 h2{text-align:center;margin-bottom:30px;color:var(--highlight);}
 
-/* DAILY REMINDER */
 .reminder-card{
 background:var(--card);
 padding:30px;
@@ -145,7 +140,6 @@ margin-bottom:15px;
 color:var(--highlight);
 }
 
-/* Ramadan reminder section light mode */
 body.light .reminder-card {
     background: #fff;
     color: black;
@@ -155,7 +149,6 @@ body.light .reminder-card h3 {
     color: black;
 }
 
-/* PREMIUM IMAGE */
 .premium-img{
 text-align:center;
 margin-top:40px;
@@ -165,7 +158,6 @@ width:280px;
 border-radius:15px;
 }
 
-/* PRODUCTS */
 .products{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -179,26 +171,29 @@ text-align:center;
 cursor:pointer;
 transition:0.3s;
 position:relative;
+display: flex;
+flex-direction: column;
+align-items: center;
 }
 .card:hover{transform:scale(1.03);}
 .card img{
 width:100%;
-height:260px;
-object-fit:cover;
+height:auto;          /* natural height */
+max-height:500px;     /* prevent huge images */
+object-fit: contain;   /* do not crop */
 border-radius:10px;
 margin-bottom:10px;
 }
-/* Product cards light mode */
-body.light .card {
-    background: #fff;   /* white background */
-    color: black;       /* all text black */
-}
 
+body.light .card {
+    background: #fff;
+    color: black;
+}
 body.light .card h3,
 body.light .card p {
-    color: black;       /* product name and price text black */
+    color: black;
 }
-/* MODAL */
+
 .modal{
 display:none;
 position:fixed;
@@ -232,7 +227,6 @@ font-size:20px;
 color:var(--highlight);
 }
 
-/* VIDEO LIST */
 .video-list button{
 display:block;
 width:100%;
@@ -245,7 +239,6 @@ background:var(--highlight);
 color:#000;
 }
 
-/* CEO */
 .ceo{text-align:center;}
 .ceo img{
 width:220px;
@@ -255,14 +248,12 @@ border-radius:50%;
 margin-bottom:20px;
 }
 
-/* CEO heading, text and button black in light mode */
 body.light .ceo h2,
 body.light .ceo p,
 body.light .ceo-btn {
     color: black;
 }
 
-/* SOLD OUT SECTION */
 .sold-out{
 background:var(--card);
 padding:40px 20px;
@@ -275,7 +266,6 @@ box-shadow:0 0 20px rgba(0,0,0,0.3);
 .sold-out h3{color:var(--highlight);margin-bottom:15px;}
 .sold-out p{font-size:1.1rem;}
 
-/* WHATSAPP */
 .whatsapp{
 position:fixed;
 bottom:20px;
@@ -293,7 +283,6 @@ color:var(--text);
 border:1px solid rgba(255,255,255,0.3);
 }
 
-/* BUY BUTTON IN MODAL */
 .modal .buy-btn{
 padding:12px 22px;
 border:none;
@@ -379,10 +368,6 @@ Allah loves those who seek Him sincerely.” (DAY5)
 <a href="https://wa.me/2348134654462" class="whatsapp">💬</a>
 </section>
 
-<!-- =================== -->
-<!-- HIDDEN OWNER PANEL -->
-<!-- =================== -->
-
 <section class="container" id="ownerPosts">
 <h2>Store Updates</h2>
 
@@ -418,7 +403,7 @@ localStorage.setItem('mode',document.body.classList.contains('light')?'light':'d
 if(localStorage.getItem('mode')==='light'){document.body.classList.add('light');}
 
 // ===================
-// OWNER PANEL SCRIPT (text + image)
+// OWNER PANEL SCRIPT (text + image, no cropping)
 // ===================
 const SECRET = "mymagickey";
 
@@ -444,13 +429,13 @@ function loadPosts(){
 
   posts.forEach((p,i)=>{
     let postHTML = `<div class="card">`;
-    if(p.image) postHTML += `<img src="${p.image}" style="width:100%;border-radius:10px;margin-bottom:10px;">`;
+    if(p.image) postHTML += `<img src="${p.image}">`;
     if(p.text) postHTML += `<p>${p.text}</p>`;
     postHTML += `</div>`;
     publicDiv.innerHTML += postHTML;
 
     let adminHTML = `<div class="card">`;
-    if(p.image) adminHTML += `<img src="${p.image}" style="width:100%;border-radius:10px;margin-bottom:10px;">`;
+    if(p.image) adminHTML += `<img src="${p.image}">`;
     if(p.text) adminHTML += `<p>${p.text}</p>`;
     adminHTML += `<button class="glass-btn" onclick="deletePost(${i})">Delete</button></div>`;
     adminDiv.innerHTML += adminHTML;
