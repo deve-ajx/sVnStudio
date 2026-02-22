@@ -355,6 +355,37 @@ Allah loves those who seek Him sincerely.” (DAY5)
 </p>
 </div>
 </section>
+<script>
+// Blogspot RSS Feed
+const blogFeed = 'https://svn0.blogspot.com/feeds/posts/default?alt=json';
+
+fetch(blogFeed)
+  .then(response => response.json())
+  .then(data => {
+    const postsContainer = document.getElementById('blog-posts');
+    const posts = data.feed.entry || [];
+
+    posts.slice(0, 6).forEach(post => {
+      const title = post.title.$t;
+      const link = post.link.find(l => l.rel === 'alternate').href;
+      let img = '';
+      const content = post.content.$t;
+      const imgMatch = content.match(/<img.*?src="(.*?)"/);
+      if (imgMatch) img = imgMatch[1];
+      else img = 'https://via.placeholder.com/300x200?text=No+Image';
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <img src="${img}" alt="${title}">
+        <h3>${title}</h3>
+        <a href="${link}" target="_blank" class="glass-btn">Read More</a>
+      `;
+      postsContainer.appendChild(card);
+    });
+  })
+  .catch(err => console.error('Error loading blog posts:', err));
+</script>
 
 <section class="premium-img">
 <img src="https://files.catbox.moe/ulc5we.jpeg">
