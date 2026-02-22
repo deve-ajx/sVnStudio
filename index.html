@@ -236,16 +236,6 @@ border-radius:50%;
 margin-bottom:20px;
 }
 
-/* CEO BUTTON LIGHT MODE FIX */
-body.light .ceo-btn {
-    color: black;              /* text color */
-    border-color: rgba(0,0,0,0.3); /* border looks better on light bg */
-}
-body.light .ceo-btn:hover {
-    background: var(--highlight); /* hover stays same */
-    color: #000;                  /* hover text black */
-}
-
 /* SOLD OUT SECTION */
 .sold-out{
 background:var(--card);
@@ -353,11 +343,77 @@ Allah loves those who seek Him sincerely.”
 <p class="price" style="display:none;">₦650,000</p>
 </div>
 
-<!-- other products omitted for brevity, same as your original -->
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/fwoklz.jpeg">
+<h3>iPhone 13 (128GB)</h3>
+<p class="price" style="display:none;">₦450,000</p>
+</div>
+
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/366zoj.jpeg">
+<h3>iPhone 13 Pro Max (256GB)</h3>
+<p class="price" style="display:none;">₦550,000</p>
+</div>
+
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/d30v1h.jpeg">
+<h3>iPhone X (Face ID Disabled)</h3>
+<p class="price" style="display:none;">₦70,000</p>
+</div>
+
+<!-- Additional Models -->
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/327urf.jpeg">
+<h3>iPhone Model A</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/p7i5qs.jpeg">
+<h3>iPhone Model B</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/jtva4c.jpeg">
+<h3>iPhone Model C</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/1glze4.jpeg">
+<h3>iPhone Model D</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/07tprn.jpeg">
+<h3>iPhone Model E</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/w590mh.jpeg">
+<h3>iPhone Model F</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/9414gn.jpeg">
+<h3>iPhone Model G</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
+
+<div class="card" onclick="showModal(this)">
+<img src="https://files.catbox.moe/w0x261.jpeg">
+<h3>iPhone Model H</h3>
+<p class="price" style="display:none;">₦000,000</p>
+</div>
 
 </div>
 </section>
 
+<!-- SOLD OUT & SATISFIED CUSTOMERS -->
 <section class="sold-out">
 <h3>400+ Sold Out & Satisfied Customers</h3>
 <p>Join the thousands of happy customers who trust EmAji Phones Store for 100% original iPhones. Our phones are fully tested, guaranteed, and delivered nationwide. Your satisfaction is our priority!</p>
@@ -367,8 +423,7 @@ Allah loves those who seek Him sincerely.”
 <h2>Founder & CEO</h2>
 <img src="https://files.catbox.moe/bgam4v.jpeg">
 <p>Muhammad Modu Aji — Founder and visionary leader of EmAji Phones Store.</p>
-<!-- CEO button updated with ceo-btn class -->
-<button class="glass-btn ceo-btn" onclick="openCeoVideo()">Watch CEO Message</button>
+<button class="glass-btn" onclick="openCeoVideo()">Watch CEO Message</button>
 <br><br>
 <a href="https://wa.me/2348134654462" class="whatsapp">💬</a>
 </section>
