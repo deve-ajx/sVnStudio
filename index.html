@@ -201,110 +201,6 @@ body.light .card p {
     color: black;
 }
 
-.modal{
-display:none;
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,0.9);
-justify-content:center;
-align-items:center;
-z-index:1000;
-}
-.modal-content{
-background:var(--card);
-padding:20px;
-border-radius:10px;
-max-width:500px;
-width:90%;
-text-align:center;
-position:relative;
-}
-.modal-content img{
-width:100%;
-border-radius:10px;
-margin-bottom:15px;
-}
-.close{
-position:absolute;
-top:10px;
-right:15px;
-cursor:pointer;
-font-size:20px;
-color:var(--highlight);
-}
-
-.video-list button{
-display:block;
-width:100%;
-margin:10px 0;
-padding:10px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-background:var(--highlight);
-color:#000;
-}
-
-.ceo{text-align:center;}
-.ceo img{
-width:220px;
-height:220px;
-object-fit:cover;
-border-radius:50%;
-margin-bottom:20px;
-}
-
-body.light .ceo h2,
-body.light .ceo p,
-body.light .ceo-btn {
-    color: black;
-}
-
-.sold-out{
-background:var(--card);
-padding:40px 20px;
-margin:50px auto;
-border-radius:20px;
-text-align:center;
-max-width:900px;
-box-shadow:0 0 20px rgba(0,0,0,0.3);
-}
-.sold-out h3{color:var(--highlight);margin-bottom:15px;}
-.sold-out p{font-size:1.1rem;}
-
-.whatsapp{
-position:fixed;
-bottom:20px;
-right:20px;
-width:60px;height:60px;
-background:var(--glass);
-backdrop-filter:blur(10px);
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:50%;
-font-size:2rem;
-text-decoration:none;
-color:var(--text);
-border:1px solid rgba(255,255,255,0.3);
-}
-
-.modal .buy-btn{
-padding:12px 22px;
-border:none;
-border-radius:10px;
-background:var(--highlight);
-color:#000;
-font-weight:600;
-cursor:pointer;
-margin-top:15px;
-}
-.modal .buy-btn:hover{
-background:#fff;
-color:#000;
-}
-
 footer{
 text-align:center;
 padding:30px;
@@ -317,63 +213,7 @@ color:#fff;
 
 <header>
 <div class="logo"><img src="https://files.catbox.moe/z18y6s.png"></div>
-
-<div class="hamburger" id="hamburger">
-<div></div><div></div><div></div>
-</div>
-
-<div class="nav-menu" id="navMenu">
-<a href="#about">About</a>
-<a href="#reminder">Daily Reminder</a>
-<a href="#products">Products</a>
-<a href="#ceo">CEO</a>
-<a href="#" onclick="toggleMode()">Dark / Light</a>
-</div>
-
-<div class="header-content">
-<h1>EmAji <span>Phones Store</span></h1>
-<p>100% Original iPhones | Trusted in Maiduguri | Nationwide Delivery</p>
-<button class="glass-btn" onclick="document.getElementById('products').scrollIntoView()">View Phones</button>
-<button class="glass-btn" onclick="openUpdate()">watch</button>
-</div>
 </header>
-
-<section class="container" id="reminder">
-<h2>🌙 Ramadan Daily Reminder</h2>
-<div class="reminder-card">
-<h3>Today's Reminder</h3>
-<p>
-“Ramadan is the month of mercy, forgiveness and freedom from the fire. 
-Increase your prayers, give charity, and purify your heart. 
-Allah loves those who seek Him sincerely.” (DAY5)
-</p>
-</div>
-</section>
-
-<section class="premium-img">
-<img src="https://files.catbox.moe/ulc5we.jpeg">
-</section>
-
-<section class="container" id="products">
-<h2>Our Premium iPhones</h2>
-<div class="products">
-<!-- your product cards remain unchanged -->
-</div>
-</section>
-
-<section class="sold-out">
-<h3>400+ Sold Out & Satisfied Customers</h3>
-<p>Join the hundreds of happy customers who trust EmAji Phones Store for 100% original iPhones. Our phones are fully tested, guaranteed, and delivered nationwide. Your satisfaction is our priority!</p>
-</section>
-
-<section class="container ceo" id="ceo">
-<h2>Founder & CEO</h2>
-<img src="https://files.catbox.moe/bgam4v.jpeg">
-<p>Mohammad Modu Aji, CEO of EmAji Phones, is dedicated to providing customers with the latest iPhones at competitive prices. With a focus on reliability and excellent service, he has built EmAji Phones into a trusted source for high-quality Apple devices, making it easy for everyone to stay connected with the technology they love.</p>
-<button class="glass-btn" onclick="openCeoVideo()">view</button>
-<br><br>
-<a href="https://wa.me/2348134654462" class="whatsapp">💬</a>
-</section>
 
 <section class="container" id="ownerPosts">
 <h2>Store Updates</h2>
@@ -398,29 +238,12 @@ Allah loves those who seek Him sincerely.” (DAY5)
 </footer>
 
 <script>
-// Hamburger
-const hamburger=document.getElementById('hamburger');
-const navMenu=document.getElementById('navMenu');
-hamburger.onclick=()=>{navMenu.style.display=navMenu.style.display==='flex'?'none':'flex';};
-
-// Dark/Light
-function toggleMode(){
-document.body.classList.toggle('light');
-localStorage.setItem('mode',document.body.classList.contains('light')?'light':'dark');
-}
-if(localStorage.getItem('mode')==='light'){document.body.classList.add('light');}
-
-// ===================
-// OWNER PANEL SCRIPT (text + image + video)
-// ===================
 const SECRET = "mymagickey";
 
 function showAdmin(){
   const key = prompt("Enter Owner Secret");
   if(key === SECRET){
-    const panel = document.getElementById('adminPanel');
-    panel.style.display='block';
-    panel.scrollIntoView({behavior:'smooth'});
+    document.getElementById('adminPanel').style.display='block';
     loadPosts();
   } else {
     alert("Wrong secret!");
@@ -436,64 +259,85 @@ function loadPosts(){
   adminDiv.innerHTML = "";
 
   posts.forEach((p,i)=>{
-    let postHTML = `<div class="card">`;
-    if(p.image) postHTML += `<img src="${p.image}">`;
-    if(p.video) postHTML += `<video src="${p.video}" controls></video>`;
-    if(p.text) postHTML += `<p>${p.text}</p>`;
-    postHTML += `</div>`;
-    publicDiv.innerHTML += postHTML;
-
-    let adminHTML = `<div class="card">`;
-    if(p.image) adminHTML += `<img src="${p.image}">`;
-    if(p.video) adminHTML += `<video src="${p.video}" controls></video>`;
-    if(p.text) adminHTML += `<p>${p.text}</p>`;
-    adminHTML += `<button class="glass-btn" onclick="deletePost(${i})">Delete</button></div>`;
-    adminDiv.innerHTML += adminHTML;
+    let html = `<div class="card">`;
+    if(p.image) html += `<img src="${p.image}">`;
+    if(p.video) html += `<video src="${p.video}" controls></video>`;
+    if(p.text) html += `<p>${p.text}</p>`;
+    html += `</div>`;
+    publicDiv.innerHTML += html;
+    
+    let adminHtml = `<div class="card">`;
+    if(p.image) adminHtml += `<img src="${p.image}">`;
+    if(p.video) adminHtml += `<video src="${p.video}" controls></video>`;
+    if(p.text) adminHtml += `<p>${p.text}</p>`;
+    adminHtml += `<button class="glass-btn" onclick="deletePost(${i})">Delete</button></div>`;
+    adminDiv.innerHTML += adminHtml;
   });
 }
 
 function addPost(){
-  const content = document.getElementById('postContent').value;
-  const imageInput = document.getElementById('postImage');
-  const videoInput = document.getElementById('postVideo');
-  
-  if(!content && !imageInput.files[0] && !videoInput.files[0]) return;
-
+  const text = document.getElementById('postContent').value;
+  const imgInput = document.getElementById('postImage');
+  const vidInput = document.getElementById('postVideo');
   const posts = JSON.parse(localStorage.getItem('posts')||"[]");
 
-  const addPostObject = (videoData=null) => {
-    posts.unshift({
-      text: content || null,
-      image: imageInput.files[0] ? URL.createObjectURL(imageInput.files[0]) : null,
-      video: videoData
-    });
-    localStorage.setItem('posts', JSON.stringify(posts));
-    document.getElementById('postContent').value="";
-    imageInput.value="";
-    videoInput.value="";
-    loadPosts();
-  }
+  if(!text && !imgInput.files[0] && !vidInput.files[0]) return;
 
-  if(videoInput.files[0]){
-    const reader = new FileReader();
+  const reader = new FileReader();
+  if(vidInput.files[0]){
     reader.onload = function(e){
-      addPostObject(e.target.result);
+      let videoData = e.target.result;
+      let imageData = null;
+      if(imgInput.files[0]){
+        const imgReader = new FileReader();
+        imgReader.onload = function(ev){
+          imageData = ev.target.result;
+          posts.unshift({text,text,image:imageData,video:videoData});
+          localStorage.setItem('posts',JSON.stringify(posts));
+          clearInputs();
+          loadPosts();
+        }
+        imgReader.readAsDataURL(imgInput.files[0]);
+      } else {
+        posts.unshift({text,text,image:null,video:videoData});
+        localStorage.setItem('posts',JSON.stringify(posts));
+        clearInputs();
+        loadPosts();
+      }
     }
-    reader.readAsDataURL(videoInput.files[0]);
+    reader.readAsDataURL(vidInput.files[0]);
+  } else if(imgInput.files[0]){
+    reader.onload = function(e){
+      posts.unshift({text,text,image:e.target.result,video:null});
+      localStorage.setItem('posts',JSON.stringify(posts));
+      clearInputs();
+      loadPosts();
+    }
+    reader.readAsDataURL(imgInput.files[0]);
   } else {
-    addPostObject();
+    posts.unshift({text,text,image:null,video:null});
+    localStorage.setItem('posts',JSON.stringify(posts));
+    clearInputs();
+    loadPosts();
   }
 }
 
-function deletePost(index){
+function clearInputs(){
+  document.getElementById('postContent').value="";
+  document.getElementById('postImage').value="";
+  document.getElementById('postVideo').value="";
+}
+
+function deletePost(i){
   const posts = JSON.parse(localStorage.getItem('posts')||"[]");
-  posts.splice(index,1);
-  localStorage.setItem('posts', JSON.stringify(posts));
+  posts.splice(i,1);
+  localStorage.setItem('posts',JSON.stringify(posts));
   loadPosts();
 }
 
-// initially load posts for public view
+// load public posts on page load
 loadPosts();
 </script>
+
 </body>
 </html>
