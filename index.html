@@ -362,9 +362,7 @@ Allah loves those who seek Him sincerely.” (DAY5)
 <section class="container" id="products">
 <h2>Our Premium iPhones</h2>
 <div class="products">
-
-<!-- (All your product cards remain exactly as before) -->
-
+<!-- your product cards remain unchanged -->
 </div>
 </section>
 
@@ -406,8 +404,6 @@ Allah loves those who seek Him sincerely.” (DAY5)
 © 2026 EmAji Phones Store. All Rights Reserved.
 </footer>
 
-<!-- PRODUCT MODAL, UPDATE MODAL, CEO MODAL (unchanged) -->
-
 <script>
 // Hamburger
 const hamburger=document.getElementById('hamburger');
@@ -421,36 +417,6 @@ localStorage.setItem('mode',document.body.classList.contains('light')?'light':'d
 }
 if(localStorage.getItem('mode')==='light'){document.body.classList.add('light');}
 
-// Product Modal
-function showModal(card){
-document.getElementById('modal-img').src=card.querySelector('img').src;
-document.getElementById('modal-name').textContent=card.querySelector('h3').textContent;
-document.getElementById('modal-price').textContent=card.querySelector('.price').textContent;
-document.getElementById('modal-buy-btn').style.display='block';
-document.getElementById('modal').style.display='flex';
-}
-function closeModal(){document.getElementById('modal').style.display='none';}
-
-// Update Videos
-function openUpdate(){document.getElementById('updateModal').style.display='flex';}
-function closeUpdate(){document.getElementById('updateModal').style.display='none';}
-function playVideo(src){
-const player=document.getElementById('updatePlayer');
-player.src=src;
-player.play();
-}
-
-// CEO Video
-function openCeoVideo(){document.getElementById('ceoModal').style.display='flex';}
-function closeCeo(){document.getElementById('ceoModal').style.display='none';}
-
-// BUY BUTTON FUNCTION
-document.getElementById('modal-buy-btn').addEventListener('click',function(){
-const name=document.getElementById('modal-name').textContent;
-const message=encodeURIComponent(`Hello! I’m interested in this item and would love your assistance to complete the purchase. Thank you! ${name}`);
-window.open(`https://wa.me/2348134654462?text=${message}`,'_blank');
-});
-
 // ===================
 // OWNER PANEL SCRIPT
 // ===================
@@ -459,7 +425,9 @@ const SECRET = "mymagickey"; // owner secret
 function showAdmin(){
   const key = prompt("Enter Owner Secret");
   if(key === SECRET){
-    document.getElementById('adminPanel').style.display='block';
+    const panel = document.getElementById('adminPanel');
+    panel.style.display='block';
+    panel.scrollIntoView({behavior:'smooth'});
     loadPosts();
   } else {
     alert("Wrong secret!");
@@ -470,19 +438,26 @@ function loadPosts(){
   const posts = JSON.parse(localStorage.getItem('posts')||"[]");
   const publicDiv = document.getElementById('publicPosts');
   const adminDiv = document.getElementById('adminPosts');
+  
   publicDiv.innerHTML = "";
   adminDiv.innerHTML = "";
+
   posts.forEach((p,i)=>{
+    // public posts
     publicDiv.innerHTML += `<div class="card"><p>${p}</p></div>`;
-    adminDiv.innerHTML += `<div class="card"><p>${p}</p><button onclick="deletePost(${i})">Delete</button></div>`;
+    // admin posts with delete
+    adminDiv.innerHTML += `<div class="card"><p>${p}</p>
+      <button class="glass-btn" onclick="deletePost(${i})">Delete</button>
+    </div>`;
   });
 }
 
 function addPost(){
   const content = document.getElementById('postContent').value;
   if(!content) return;
+
   const posts = JSON.parse(localStorage.getItem('posts')||"[]");
-  posts.unshift(content); // newest on top
+  posts.unshift(content);
   localStorage.setItem('posts', JSON.stringify(posts));
   document.getElementById('postContent').value="";
   loadPosts();
@@ -495,6 +470,7 @@ function deletePost(index){
   loadPosts();
 }
 
+// initially load posts for public view
 loadPosts();
 </script>
 </body>
