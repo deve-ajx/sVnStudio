@@ -354,68 +354,80 @@ Allah loves those who seek Him sincerely.” (DAY5)
 <div class="card" onclick="showModal(this)">
 <img src="https://files.catbox.moe/4zmhhu.jpeg">
 <h3>iPhone 14 Pro Max (256GB)</h3>
-<p class="price" style="display:none;">₦650,000</p>
+<p class="price" style="display:block;">₦650,000</p>
 </div>
 <div class="card" onclick="showModal(this)">
 <img src="https://files.catbox.moe/fwoklz.jpeg">
 <h3>iPhone 13 (128GB)</h3>
-<p class="price" style="display:none;">₦450,000</p>
+<p class="price" style="display:block;">₦450,000</p>
 </div>
 <div class="card" onclick="showModal(this)">
 <img src="https://files.catbox.moe/366zoj.jpeg">
 <h3>iPhone 13 Pro Max (256GB)</h3>
-<p class="price" style="display:none;">₦550,000</p>
+<p class="price" style="display:block;">₦550,000</p>
 </div>
 <div class="card" onclick="showModal(this)">
 <img src="https://files.catbox.moe/d30v1h.jpeg">
 <h3>iPhone X (Face ID Disabled)</h3>
-<p class="price" style="display:none;">₦70,000</p>
+<p class="price" style="display:block;">₦70,000</p>
 </div>
 <div class="card" onclick="showModal(this)">
 <img src="https://files.catbox.moe/327urf.jpeg">
 <h3>iPhone Model A</h3>
-<p class="price" style="display:none;">₦000,000</p>
+<p class="price" style="display:block;">₦000,000</p>
 </div>
 <div class="card" onclick="showModal(this)">
 <img src="https://files.catbox.moe/p7i5qs.jpeg">
 <h3>iPhone Model B</h3>
-<p class="price" style="display:none;">₦000,000</p>
+<p class="price" style="display:block;">₦000,000</p>
 </div>
 <div class="card" onclick="showModal(this)">
 <img src="https://files.catbox.moe/jtva4c.jpeg">
 <h3>iPhone Model C</h3>
-<p class="price" style="display:none;">₦000,000</p>
+<p class="price" style="display:block;">₦000,000</p>
 </div>
 <div class="card" onclick="showModal(this)">
 <img src="https://files.catbox.moe/1glze4.jpeg">
 <h3>iPhone Model D</h3>
-<p class="price" style="display:none;">₦000,000</p>
+<p class="price" style="display:block;">₦000,000</p>
 </div>
 <div class="card" onclick="showModal(this)">
 <img src="https://files.catbox.moe/07tprn.jpeg">
 <h3>iPhone Model E</h3>
-<p class="price" style="display:none;">₦000,000</p>
+<p class="price" style="display:block;">₦000,000</p>
 </div>
 <div class="card" onclick="showModal(this)">
 <img src="https://files.catbox.moe/w590mh.jpeg">
 <h3>iPhone Model F</h3>
-<p class="price" style="display:none;">₦000,000</p>
+<p class="price" style="display:block;">₦000,000</p>
 </div>
 <div class="card" onclick="showModal(this)">
 <img src="https://files.catbox.moe/9414gn.jpeg">
 <h3>iPhone Model G</h3>
-<p class="price" style="display:none;">₦000,000</p>
+<p class="price" style="display:block;">₦000,000</p>
 </div>
 <div class="card" onclick="showModal(this)">
 <img src="https://files.catbox.moe/w0x261.jpeg">
 <h3>iPhone Model H</h3>
-<p class="price" style="display:none;">₦000,000</p>
+<p class="price" style="display:block;">₦000,000</p>
 </div>
 
 </div>
 </section>
 
-<!-- SOLD OUT, CEO sections remain unchanged -->
+<section class="sold-out">
+<h3>400+ Sold Out & Satisfied Customers</h3>
+<p>Join the hundreds of happy customers who trust EmAji Phones Store for 100% original iPhones. Our phones are fully tested, guaranteed, and delivered nationwide. Your satisfaction is our priority!</p>
+</section>
+
+<section class="container ceo" id="ceo">
+<h2>Founder & CEO</h2>
+<img src="https://files.catbox.moe/bgam4v.jpeg">
+<p>Mohammad Modu Aji, CEO of EmAji Phones, is dedicated to providing customers with the latest iPhones at competitive prices. With a focus on reliability and excellent service, he has built EmAji Phones into a trusted source for high-quality Apple devices, making it easy for everyone to stay connected with the technology they love.</p>
+<button class="glass-btn" onclick="openCeoVideo()">view</button>
+<br><br>
+<a href="https://wa.me/2348134654462" class="whatsapp">💬</a>
+</section>
 
 <!-- OWNER PANEL SECTION -->
 <section class="container" id="ownerPosts">
@@ -436,6 +448,40 @@ Allah loves those who seek Him sincerely.” (DAY5)
 © 2026 EmAji Phones Store. All Rights Reserved.
 </footer>
 
+<!-- PRODUCT MODAL -->
+<div class="modal" id="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal()">&times;</span>
+<img id="modal-img">
+<h3 id="modal-name"></h3>
+<p id="modal-price"></p>
+<button class="buy-btn" id="modal-buy-btn">Buy</button>
+</div>
+</div>
+
+<!-- UPDATE VIDEO MODAL -->
+<div class="modal" id="updateModal">
+<div class="modal-content">
+<span class="close" onclick="closeUpdate()">&times;</span>
+<h3>watch our iPhones</h3>
+<div class="video-list">
+<button onclick="playVideo('https://files.catbox.moe/zr13z4.mp4')">view</button>
+<button onclick="playVideo('https://files.catbox.moe/y4ncxj.mov')">view</button>
+<button onclick="playVideo('https://files.catbox.moe/j1uzcm.mov')">view</button>
+<button onclick="playVideo('https://files.catbox.moe/msza7o.mov')">view</button>
+</div>
+<video id="updatePlayer" width="100%" controls style="margin-top:15px;"></video>
+</div>
+</div>
+
+<!-- CEO VIDEO -->
+<div class="modal" id="ceoModal">
+<div class="modal-content">
+<span class="close" onclick="closeCeo()">&times;</span>
+<video src="https://files.catbox.moe/vappno.mov" width="100%" controls></video>
+</div>
+</div>
+
 <script>
 // Hamburger
 const hamburger=document.getElementById('hamburger');
@@ -449,7 +495,35 @@ localStorage.setItem('mode',document.body.classList.contains('light')?'light':'d
 }
 if(localStorage.getItem('mode')==='light'){document.body.classList.add('light');}
 
-// Product Modal, Update & CEO functions remain unchanged
+// Product Modal
+function showModal(card){
+document.getElementById('modal-img').src=card.querySelector('img').src;
+document.getElementById('modal-name').textContent=card.querySelector('h3').textContent;
+document.getElementById('modal-price').textContent=card.querySelector('.price').textContent;
+document.getElementById('modal-buy-btn').style.display='block';
+document.getElementById('modal').style.display='flex';
+}
+function closeModal(){document.getElementById('modal').style.display='none';}
+
+// Update Videos
+function openUpdate(){document.getElementById('updateModal').style.display='flex';}
+function closeUpdate(){document.getElementById('updateModal').style.display='none';}
+function playVideo(src){
+const player=document.getElementById('updatePlayer');
+player.src=src;
+player.play();
+}
+
+// CEO Video
+function openCeoVideo(){document.getElementById('ceoModal').style.display='flex';}
+function closeCeo(){document.getElementById('ceoModal').style.display='none';}
+
+// BUY BUTTON FUNCTION
+document.getElementById('modal-buy-btn').addEventListener('click',function(){
+const name=document.getElementById('modal-name').textContent;
+const message=encodeURIComponent(`Hello! I’m interested in this item and would love your assistance to complete the purchase. Thank you! ${name}`);
+window.open(`https://wa.me/2348134654462?text=${message}`,'_blank');
+});
 
 // OWNER PANEL SCRIPT
 const SECRET = "mymagickey";
@@ -504,14 +578,14 @@ function addPost(){
         const imgReader = new FileReader();
         imgReader.onload = function(ev){
           imageData = ev.target.result;
-          posts.unshift({text,text,image:imageData,video:videoData});
+          posts.unshift({text,image:imageData,video:videoData});
           localStorage.setItem('posts',JSON.stringify(posts));
           clearInputs();
           loadPosts();
         }
         imgReader.readAsDataURL(imgInput.files[0]);
       } else {
-        posts.unshift({text,text,image:null,video:videoData});
+        posts.unshift({text,image:null,video:videoData});
         localStorage.setItem('posts',JSON.stringify(posts));
         clearInputs();
         loadPosts();
@@ -520,14 +594,14 @@ function addPost(){
     reader.readAsDataURL(vidInput.files[0]);
   } else if(imgInput.files[0]){
     reader.onload = function(e){
-      posts.unshift({text,text,image:e.target.result,video:null});
+      posts.unshift({text,image:e.target.result,video:null});
       localStorage.setItem('posts',JSON.stringify(posts));
       clearInputs();
       loadPosts();
     }
     reader.readAsDataURL(imgInput.files[0]);
   } else {
-    posts.unshift({text,text,image:null,video:null});
+    posts.unshift({text,image:null,video:null});
     localStorage.setItem('posts',JSON.stringify(posts));
     clearInputs();
     loadPosts();
