@@ -516,6 +516,126 @@ Allah loves those who seek Him sincerely.” (Day6)
 </div>
 
 <script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDPlWotio-IeW2Y7b4LM0nkGansWG6zOh4",
+  authDomain: "emaji-phones-store.firebaseapp.com",
+  projectId: "emaji-phones-store",
+  storageBucket: "emaji-phones-store.firebasestorage.app",
+  messagingSenderId: "160691936362",
+  appId: "1:160691936362:web:242c4dd46a53b8d2223e13"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const ADMIN_EMAIL = "aliemaji01@gmail.com";
+
+// Admin login
+window.firebaseLogin = async function(email, password){
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    if(userCredential.user.email !== ADMIN_EMAIL){
+      alert("Not authorized!");
+      await signOut(auth);
+      return;
+    }
+    alert("Welcome Admin!");
+    document.getElementById('adminPanel').style.display='block';
+    loadPosts(); // load posts for everyone
+  } catch(error) {
+    alert(error.message);
+  }
+};
+
+// Check login state
+onAuthStateChanged(auth, user => {
+  if(user && user.email === ADMIN_EMAIL){
+    document.getElementById('adminPanel').style.display='block';
+    loadPosts();
+  }
+});
+
+// Upload post
+window.addPost = async function(){
+  const text = document.getElementById('postContent').value;
+  const imgInput = document.getElementById('postImage');
+  const vidInput = document.getElementById('postVideo');
+  if(!text && !imgInput.files[0] && !vidInput.files[0]) return;
+
+  const newPost = { text: text || "", image: null, video: null, timestamp: Date.now() };
+
+  if(imgInput.files[0]){
+    newPost.image = await fileToDataUrl(imgInput.files[0]);
+  }
+  if(vidInput.files[0]){
+    newPost.video = await fileToDataUrl(vidInput.files[0]);
+  }
+
+  await addDoc(collection(db, "posts"), newPost);
+  clearInputs();
+};
+
+// Convert file to Base64 for Firebase
+function fileToDataUrl(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result);
+    reader.onerror = e => reject(e);
+    reader.readAsDataURL(file);
+  });
+}
+
+// Clear inputs
+function clearInputs(){
+  document.getElementById('postContent').value="";
+  document.getElementById('postImage').value="";
+  document.getElementById('postVideo').value="";
+}
+
+// Delete post
+window.deletePost = async function(id){
+  if(!confirm("Delete this post?")) return;
+  await deleteDoc(doc(db, "posts", id));
+}
+
+// Load posts for everyone
+async function loadPosts(){
+  const publicDiv = document.getElementById('publicPosts');
+  const adminDiv = document.getElementById('adminPosts');
+  publicDiv.innerHTML = "";
+  adminDiv.innerHTML = "";
+
+  // Listen to real-time updates
+  onSnapshot(collection(db, "posts"), snapshot => {
+    publicDiv.innerHTML = "";
+    adminDiv.innerHTML = "";
+    snapshot.docs.sort((a,b)=>b.data().timestamp - a.data().timestamp).forEach(docSnap => {
+      const p = docSnap.data();
+      let html = `<div class="card">`;
+      if(p.image) html += `<img src="${p.image}">`;
+      if(p.video) html += `<video src="${p.video}" controls></video>`;
+      if(p.text) html += `<p>${p.text}</p>`;
+      html += `</div>`;
+      publicDiv.innerHTML += html;
+
+      // Admin version with delete
+      if(auth.currentUser && auth.currentUser.email === ADMIN_EMAIL){
+        let adminHtml = `<div class="card">`;
+        if(p.image) adminHtml += `<img src="${p.image}">`;
+        if(p.video) adminHtml += `<video src="${p.video}" controls></video>`;
+        if(p.text) adminHtml += `<p>${p.text}</p>`;
+        adminHtml += `<button class="glass-btn" onclick="deletePost('${docSnap.id}')">Delete</button></div>`;
+        adminDiv.innerHTML += adminHtml;
+      }
+    });
+  });
+}
+</script>
 // Hamburger
 const hamburger=document.getElementById('hamburger');
 const navMenu=document.getElementById('navMenu');
