@@ -83,6 +83,7 @@ img {-webkit-user-drag: none;-webkit-touch-callout: none;user-select: none;}
 </style>
 </head>
 <body>
+
 <div class="fixed-top-bar">
   <div class="logo"><img src="https://files.catbox.moe/z18y6s.png"></div>
   <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
@@ -96,7 +97,6 @@ img {-webkit-user-drag: none;-webkit-touch-callout: none;user-select: none;}
 <a href="#ceo">CEO</a>
 <a href="#" onclick="toggleMode()">Dark / Light</a>
 </div>
-
 <div class="header-content">
 <h1>EmAji <span>Phones Store</span></h1>
 <p>100% Original iPhones | Trusted in Maiduguri | Nationwide Delivery</p>
@@ -120,7 +120,7 @@ img {-webkit-user-drag: none;-webkit-touch-callout: none;user-select: none;}
 <section class="container" id="products">
 <h2>Our Premium iPhones</h2>
 <div class="products">
-<!-- Cards remain same -->
+<!-- All your product cards remain unchanged -->
 </div>
 </section>
 
@@ -140,28 +140,27 @@ img {-webkit-user-drag: none;-webkit-touch-callout: none;user-select: none;}
 
 <!-- OWNER PANEL -->
 <section class="container" id="ownerPosts">
-<h2>low price iPhones</h2>
-
-<!-- Posts displayed here -->
+<h2>Low Price iPhones</h2>
 <div id="publicPosts"></div>
 
-<!-- Admin panel hidden until login -->
-<div id="adminPanel" style="display:none;margin-top:20px;">
-<h3>Owner Panel</h3>
+<div id="adminPanel" style="margin-top:20px;">
+<h3>Owner Login</h3>
 <input type="text" id="loginEmail" placeholder="Email">
 <input type="password" id="loginPassword" placeholder="Password">
 <button class="glass-btn" id="loginBtn">Login</button>
 
+<div id="postForm" style="display:none;margin-top:20px;">
 <input type="text" id="postText" placeholder="Write update...">
 <input type="file" id="postImage" accept="image/*">
 <button class="glass-btn" id="postBtn">Post Update</button>
 <div id="adminPosts" style="margin-top:20px;"></div>
 </div>
+</div>
 </section>
 
 <footer>© 2026 EmAji Phones Store. All Rights Reserved.</footer>
 
-<!-- Modals remain same -->
+<!-- All your modals remain unchanged -->
 
 <script type="module">
 // Firebase imports
@@ -194,13 +193,14 @@ const postText = document.getElementById('postText');
 const postImage = document.getElementById('postImage');
 const publicPosts = document.getElementById('publicPosts');
 const adminPosts = document.getElementById('adminPosts');
+const postForm = document.getElementById('postForm');
 
 // Login
 loginBtn.addEventListener('click', async () => {
   try{
     await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
     alert("Logged in successfully!");
-    adminPanel.style.display = 'block';
+    postForm.style.display = 'block';
     loadPosts();
   }catch(e){alert(e.message);}
 });
@@ -208,20 +208,17 @@ loginBtn.addEventListener('click', async () => {
 // Post update
 postBtn.addEventListener('click', async () => {
   if(!postText.value && !postImage.files[0]) return;
-
   let imageUrl = "";
   if(postImage.files[0]){
     const storageRef = ref(storage, `images/${Date.now()}_${postImage.files[0].name}`);
     await uploadBytes(storageRef, postImage.files[0]);
     imageUrl = await getDownloadURL(storageRef);
   }
-
   await addDoc(collection(db, "posts"),{
     text: postText.value,
     image: imageUrl,
     createdAt: new Date()
   });
-
   postText.value = "";
   postImage.value = "";
   loadPosts();
@@ -247,7 +244,7 @@ async function loadPosts(){
   });
 }
 
-// Dark/Light mode and hamburger
+// Hamburger & Dark/Light mode
 const hamburger=document.getElementById('hamburger');
 const navMenu=document.getElementById('navMenu');
 hamburger.onclick=()=>{navMenu.style.display=navMenu.style.display==='flex'?'none':'flex';};
