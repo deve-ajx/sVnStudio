@@ -332,6 +332,41 @@ border-bottom:1px solid rgba(255,255,255,0.15);
 body{
 padding-top:65px;
 }
+/* ===== SCROLL DOWN INDICATOR ===== */
+.scroll-indicator{
+position:absolute;
+bottom:25px;
+left:50%;
+transform:translateX(-50%);
+width:34px;
+height:34px;
+border:2px solid rgba(255,255,255,0.7);
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+z-index:3;
+animation:bounce 2s infinite;
+backdrop-filter:blur(6px);
+}
+
+.scroll-indicator span{
+display:block;
+width:8px;
+height:8px;
+border-right:2px solid #fff;
+border-bottom:2px solid #fff;
+transform:rotate(45deg);
+margin-top:-4px;
+}
+
+/* bounce animation */
+@keyframes bounce{
+0%,20%,50%,80%,100%{transform:translate(-50%,0);}
+40%{transform:translate(-50%,8px);}
+60%{transform:translate(-50%,4px);}
+}
 </style>
 </head>
 <body>
@@ -361,6 +396,9 @@ padding-top:65px;
 <p>100% Original iPhones | Trusted in Maiduguri | Nationwide Delivery</p>
 <button class="glass-btn" onclick="document.getElementById('products').scrollIntoView()">View Phones</button>
 <button class="glass-btn" onclick="openUpdate()">watch</button>
+</div>
+<div class="scroll-indicator" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+  <span></span>
 </div>
 </header>
 
