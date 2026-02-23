@@ -558,6 +558,32 @@ Allah loves those who seek Him sincerely.” (Day6)
 </div>
 </div>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDPlWotio-IeW2Y7b4LM0nkGansWG6zOh4",
+    authDomain: "emaji-phones-store.firebaseapp.com",
+    projectId: "emaji-phones-store",
+    storageBucket: "emaji-phones-store.firebasestorage.app",
+    messagingSenderId: "160691936362",
+    appId: "1:160691936362:web:242c4dd46a53b8d2223e13"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+  const auth = getAuth(app);
+
+  window.db = db;
+  window.storage = storage;
+  window.auth = auth;
+
+  console.log("🔥 Firebase Connected Successfully");
+</script>
 <script>
 // Hamburger
 const hamburger=document.getElementById('hamburger');
