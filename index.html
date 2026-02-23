@@ -304,6 +304,12 @@ color:#fff;
   height: auto;
   border-radius: 10px;
 }
+/* Disable image download tricks */
+img {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
 </style>
 </head>
 <body>
@@ -623,6 +629,17 @@ function deletePost(i){
 
 // Load public posts on page load
 loadPosts();
+// Disable right click
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+});
+
+// Disable long press on images
+document.addEventListener('touchstart', function(e) {
+  if (e.target.tagName === "IMG") {
+    e.preventDefault();
+  }
+});
 </script>
 
 </body>
