@@ -401,6 +401,15 @@ body{
   background:var(--highlight);
   color:#000;
 }
+// Navbar scroll effect
+window.addEventListener("scroll", function(){
+  const navbar = document.getElementById("navbar");
+  if(window.scrollY > 50){
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
+  }
+});
 </style>
 </head>
 <body>
