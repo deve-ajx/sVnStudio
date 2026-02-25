@@ -198,10 +198,13 @@ onAuthStateChanged(auth, async (user)=>{
     authScreen.style.display="none";
     mainSite.style.display="block";
 
-    // Check if username exists
+    // ✅ Only show username modal AFTER email verified
     const userDoc = await getDoc(doc(db,"users",user.uid));
-    if(!userDoc.exists()){ usernameModal.style.display="flex"; }
-    else { usernameModal.style.display="none"; }
+    if(!userDoc.exists()){ 
+      usernameModal.style.display="flex"; 
+    } else { 
+      usernameModal.style.display="none"; 
+    }
 
   } else {
     authScreen.style.display="flex";
