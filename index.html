@@ -13,7 +13,6 @@
   --accent:#38bdf8;
   --light:#e5e7eb;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
 body{background:var(--dark);color:var(--light);overflow-x:hidden}
 
@@ -29,7 +28,6 @@ position:fixed;
 width:100%;
 z-index:9999;
 }
-
 #authScreen input{
 padding:12px;
 margin:10px;
@@ -39,7 +37,6 @@ border:1px solid var(--accent);
 background:#111;
 color:#fff;
 }
-
 #authScreen button{
 padding:12px 20px;
 margin:5px;
@@ -49,52 +46,48 @@ background:var(--accent);
 cursor:pointer;
 font-weight:bold;
 }
-
 #message{margin-top:10px;color:var(--accent)}
 
 #mainSite{display:none}
 
+/* USERNAME MODAL */
+#usernameModal{
+display:none;
+position:fixed;inset:0;
+background:rgba(0,0,0,0.95);
+justify-content:center;align-items:center;
+z-index:1000;
+}
+#usernameModal div{
+background:#111;padding:30px;border-radius:12px;width:300px;text-align:center;
+}
+#usernameModal input{
+width:100%;padding:10px;margin:10px 0;border-radius:6px;border:1px solid #38bdf8;background:#000;color:#fff;
+}
+#usernameModal button{
+padding:10px 20px;background:#38bdf8;color:#000;border:none;border-radius:6px;cursor:pointer;
+}
+
 /* HEADER */
 header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:20px 40px;background:rgba(15,15,15,.95);
-  border-bottom:1px solid #111;backdrop-filter:blur(10px)
+display:flex;justify-content:space-between;align-items:center;
+padding:20px 40px;background:rgba(15,15,15,.95);
+border-bottom:1px solid #111;backdrop-filter:blur(10px)
 }
-
-.logo{
-  width:60px;height:60px;border-radius:50%;
-  padding:4px;border:2px solid var(--accent);
-  transition:.6s
-}
+.logo{width:60px;height:60px;border-radius:50%;padding:4px;border:2px solid var(--accent);transition:.6s}
 .logo:hover{transform:rotate(360deg) scale(1.1)}
-
-nav a{
-  color:var(--light);margin-left:25px;
-  text-decoration:none;font-weight:500;
-}
+nav a{color:var(--light);margin-left:25px;text-decoration:none;font-weight:500}
 
 /* HERO */
-.hero{
-  text-align:center;padding:140px 20px;position:relative
-}
-
-.brand{
-  font-size:3.8rem;font-weight:800;letter-spacing:3px;
-}
+.hero{text-align:center;padding:140px 20px;position:relative}
+.brand{font-size:3.8rem;font-weight:800;letter-spacing:3px}
 
 /* BUTTONS */
 .btn{
-  padding:15px 40px;border-radius:30px;
-  background:transparent;
-  color:var(--accent);
-  border:2px solid var(--accent);
-  cursor:pointer;font-size:1rem;
-  transition:.4s
+padding:15px 40px;border-radius:30px;background:transparent;color:var(--accent);
+border:2px solid var(--accent);cursor:pointer;font-size:1rem;transition:.4s
 }
-.btn:hover{
-  background:var(--accent);
-  color:#000;
-}
+.btn:hover{background:var(--accent);color:#000}
 
 /* MEMBERS SECTION */
 #membersSection{margin-top:50px;}
@@ -102,74 +95,77 @@ nav a{
 .comment{background:#111;padding:15px;border-radius:12px;margin-bottom:10px;position:relative;}
 .delete-btn{position:absolute;top:10px;right:10px;background:red;border:none;color:#fff;padding:4px 8px;border-radius:5px;cursor:pointer}
 
-footer{
-  background:#020617;padding:30px;
-  text-align:center;color:#9ca3af
-}
+footer{background:#020617;padding:30px;text-align:center;color:#9ca3af}
 </style>
 </head>
 
 <body>
 
-<!-- 🔐 AUTH SCREEN -->
+<!-- AUTH SCREEN -->
 <div id="authScreen">
-  <h2>sVn Studio Members Access</h2>
-  <input type="text" id="username" placeholder="Choose a username">
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
-  <div>
-    <button id="loginBtn">Login</button>
-    <button id="signupBtn">Sign Up</button>
-  </div>
-  <p id="message"></p>
+<h2>sVn Studio Members Access</h2>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+<div>
+<button id="loginBtn">Login</button>
+<button id="signupBtn">Sign Up</button>
+</div>
+<p id="message"></p>
 </div>
 
-<!-- 🌐 MAIN WEBSITE -->
+<!-- USERNAME MODAL -->
+<div id="usernameModal">
+<div>
+<h3>Pick a Username</h3>
+<input type="text" id="newUsername" placeholder="Enter username">
+<button id="saveUsername">Save</button>
+</div>
+</div>
+
+<!-- MAIN WEBSITE -->
 <div id="mainSite">
 
 <header>
-  <img class="logo" src="https://res.cloudinary.com/dm6k0etap/image/upload/v1769549277/0919b84a-9700-465e-8827-3a4e24a11790_idxg1u.jpg">
-  <nav>
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#tech">Tech</a>
-    <a href="#contact">Contact</a>
-    <a href="#" id="logoutBtn" style="color:red;">Logout</a>
-  </nav>
+<img class="logo" src="https://res.cloudinary.com/dm6k0etap/image/upload/v1769549277/0919b84a-9700-465e-8827-3a4e24a11790_idxg1u.jpg">
+<nav>
+<a href="#about">About</a>
+<a href="#services">Services</a>
+<a href="#tech">Tech</a>
+<a href="#contact">Contact</a>
+<a href="#" id="logoutBtn" style="color:red;">Logout</a>
+</nav>
 </header>
 
 <div class="hero">
-  <div class="brand">sVn STUDIO</div>
-  <p>Modern websites, logos, and digital adverts built with clean code and strong tech identity.</p>
+<div class="brand">sVn STUDIO</div>
+<p>Modern websites, logos, and digital adverts built with clean code and strong tech identity.</p>
 </div>
 
 <section id="membersSection">
-  <h2 style="text-align:center;">Members Only Comments</h2>
-  <div style="max-width:700px;margin:auto;">
-    <textarea id="commentInput" rows="3" style="width:100%;border-radius:8px;padding:10px;background:#111;color:#fff;border:1px solid #38bdf8;"></textarea>
-    <button class="btn" id="postCommentBtn" style="margin-top:10px;">Post Comment</button>
-    <div class="comment-box" id="commentBox"></div>
-  </div>
+<h2 style="text-align:center;">Members Only Comments</h2>
+<div style="max-width:700px;margin:auto;">
+<textarea id="commentInput" rows="3" style="width:100%;border-radius:8px;padding:10px;background:#111;color:#fff;border:1px solid #38bdf8;"></textarea>
+<button class="btn" id="postCommentBtn" style="margin-top:10px;">Post Comment</button>
+<div class="comment-box" id="commentBox"></div>
+</div>
 </section>
 
-<footer>
-  © 2026 sVn Studio Tech Agency — Modern • Clean • Powerful
-</footer>
+<footer>© 2026 sVn Studio Tech Agency — Modern • Clean • Powerful</footer>
 
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, deleteDoc, getDocs, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD0CpkbFpoKPvB1akarURWyzwiwftOiq5g",
-  authDomain: "studio-1d6b7.firebaseapp.com",
-  projectId: "studio-1d6b7",
-  storageBucket: "studio-1d6b7.firebasestorage.app",
-  messagingSenderId: "808981598394",
-  appId: "1:808981598394:web:fe6789050b9a39e288f283"
+apiKey: "AIzaSyD0CpkbFpoKPvB1akarURWyzwiwftOiq5g",
+authDomain: "studio-1d6b7.firebaseapp.com",
+projectId: "studio-1d6b7",
+storageBucket: "studio-1d6b7.firebasestorage.app",
+messagingSenderId: "808981598394",
+appId: "1:808981598394:web:fe6789050b9a39e288f283"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -177,97 +173,111 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 window.addEventListener("DOMContentLoaded", async () => {
-  const authScreen = document.getElementById("authScreen");
-  const mainSite = document.getElementById("mainSite");
-  const email = document.getElementById("email");
-  const password = document.getElementById("password");
-  const username = document.getElementById("username");
-  const message = document.getElementById("message");
-  const loginBtn = document.getElementById("loginBtn");
-  const signupBtn = document.getElementById("signupBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
-  const commentInput = document.getElementById("commentInput");
-  const postCommentBtn = document.getElementById("postCommentBtn");
-  const commentBox = document.getElementById("commentBox");
 
-  // LOGIN
-  loginBtn.onclick = async () => {
-    try {
-      const userCred = await signInWithEmailAndPassword(auth,email.value,password.value);
-      if(!userCred.user.emailVerified){
-        message.innerText = "Verify your email before login!";
-        return;
-      }
-    } catch(err) { message.innerText = err.message; }
-  };
+const authScreen = document.getElementById("authScreen");
+const mainSite = document.getElementById("mainSite");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const message = document.getElementById("message");
+const loginBtn = document.getElementById("loginBtn");
+const signupBtn = document.getElementById("signupBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const usernameModal = document.getElementById("usernameModal");
+const newUsername = document.getElementById("newUsername");
+const saveUsername = document.getElementById("saveUsername");
+const commentInput = document.getElementById("commentInput");
+const postCommentBtn = document.getElementById("postCommentBtn");
+const commentBox = document.getElementById("commentBox");
 
-  // SIGNUP
-  signupBtn.onclick = async () => {
-    if(!username.value.trim()) return message.innerText="Username required!";
-    try {
-      const userCred = await createUserWithEmailAndPassword(auth,email.value,password.value);
-      await sendEmailVerification(userCred.user);
-      await addDoc(collection(db,"users"),{
-        uid: userCred.user.uid,
-        username: username.value.trim()
-      });
-      message.innerText = "Account created! Check your email to verify.";
-    } catch(err){message.innerText = err.message;}
-  };
-
-  // LOGOUT
-  logoutBtn.onclick = async () => { await signOut(auth); }
-
-  // SHOW/HIDE SITE
-  onAuthStateChanged(auth,(user)=>{
-    if(user && user.emailVerified){
-      authScreen.style.display="none";
-      mainSite.style.display="block";
-    } else {
-      authScreen.style.display="flex";
-      mainSite.style.display="none";
+// LOGIN
+loginBtn.onclick = async () => {
+  try{
+    const userCred = await signInWithEmailAndPassword(auth,email.value,password.value);
+    if(!userCred.user.emailVerified){
+      message.innerText="Verify your email before login!";
+      return;
     }
-  });
+  } catch(err){ message.innerText = err.message; }
+};
 
-  // POST COMMENT
-  postCommentBtn.onclick = async () => {
-    const text = commentInput.value.trim();
-    if(!text) return;
-    const user = auth.currentUser;
-    if(!user) return;
-    await addDoc(collection(db,"comments"),{
-      uid:user.uid,
-      text,
-      timestamp:new Date()
-    });
-    commentInput.value="";
-  };
+// SIGNUP
+signupBtn.onclick = async () => {
+  try{
+    const userCred = await createUserWithEmailAndPassword(auth,email.value,password.value);
+    await sendEmailVerification(userCred.user);
+    message.innerText="Account created! Check your email to verify.";
+  } catch(err){ message.innerText = err.message; }
+};
 
-  // REALTIME COMMENTS
-  const q = query(collection(db,"comments"), orderBy("timestamp","asc"));
-  onSnapshot(q,(snapshot)=>{
-    commentBox.innerHTML="";
-    snapshot.forEach(async (docSnap)=>{
-      const data = docSnap.data();
-      const id = docSnap.id;
-      let usernameDisplay = data.email; // fallback
-      try{
-        const userDoc = await getDoc(doc(db,"users",data.uid));
-        if(userDoc.exists()) usernameDisplay = userDoc.data().username;
-      }catch(e){}
-      const div = document.createElement("div");
-      div.classList.add("comment");
-      div.innerHTML = `<strong>${usernameDisplay}</strong>: ${data.text}`;
-      if(auth.currentUser && auth.currentUser.uid===data.uid){
-        const delBtn = document.createElement("button");
-        delBtn.classList.add("delete-btn");
-        delBtn.textContent="Delete";
-        delBtn.onclick = async ()=>{await deleteDoc(doc(db,"comments",id))};
-        div.appendChild(delBtn);
-      }
-      commentBox.appendChild(div);
-    });
+// LOGOUT
+logoutBtn.onclick = async () => { await signOut(auth); }
+
+// ON AUTH STATE
+onAuthStateChanged(auth, async (user)=>{
+  if(user && user.emailVerified){
+    authScreen.style.display="none";
+    mainSite.style.display="block";
+
+    // Check if username exists
+    const userSnap = await getDocs(query(collection(db,"users"), where("uid","==",user.uid)));
+    if(userSnap.empty){
+      usernameModal.style.display="flex";
+    } else {
+      usernameModal.style.display="none";
+    }
+
+  } else {
+    authScreen.style.display="flex";
+    mainSite.style.display="none";
+    usernameModal.style.display="none";
+  }
+});
+
+// SAVE USERNAME
+saveUsername.onclick = async () => {
+  const name = newUsername.value.trim();
+  if(!name) return alert("Enter a username!");
+  const user = auth.currentUser;
+  await addDoc(collection(db,"users"), { uid:user.uid, username:name });
+  usernameModal.style.display="none";
+};
+
+// POST COMMENT
+postCommentBtn.onclick = async ()=>{
+  const text = commentInput.value.trim();
+  if(!text) return;
+  const user = auth.currentUser;
+  if(!user) return;
+  await addDoc(collection(db,"comments"), { uid:user.uid, text, timestamp:new Date() });
+  commentInput.value="";
+};
+
+// REALTIME COMMENTS
+const q = query(collection(db,"comments"), orderBy("timestamp","asc"));
+onSnapshot(q,(snapshot)=>{
+  commentBox.innerHTML="";
+  snapshot.forEach(async (docSnap)=>{
+    const data = docSnap.data();
+    const id = docSnap.id;
+    let usernameDisplay = data.email || "Anonymous";
+    try{
+      const userSnap = await getDocs(query(collection(db,"users"), where("uid","==",data.uid)));
+      if(!userSnap.empty) usernameDisplay = userSnap.docs[0].data().username;
+    }catch(e){}
+    const div = document.createElement("div");
+    div.classList.add("comment");
+    div.innerHTML = `<strong>${usernameDisplay}</strong>: ${data.text}`;
+    if(auth.currentUser && auth.currentUser.uid===data.uid){
+      const delBtn = document.createElement("button");
+      delBtn.classList.add("delete-btn");
+      delBtn.textContent="Delete";
+      delBtn.onclick = async ()=>{await deleteDoc(doc(db,"comments",id))};
+      div.appendChild(delBtn);
+    }
+    commentBox.appendChild(div);
   });
+});
+
 });
 </script>
 
