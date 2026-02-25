@@ -18,33 +18,16 @@ body{background:var(--dark);color:var(--light);overflow-x:hidden}
 
 /* AUTH SCREEN */
 #authScreen{
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-height:100vh;
-background:#000;
-position:fixed;
-width:100%;
-z-index:9999;
+display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;
+background:#000;position:fixed;width:100%;z-index:9999;
 }
 #authScreen input{
-padding:12px;
-margin:10px;
-width:260px;
-border-radius:8px;
-border:1px solid var(--accent);
-background:#111;
-color:#fff;
+padding:12px;margin:10px;width:260px;border-radius:8px;border:1px solid var(--accent);
+background:#111;color:#fff;
 }
 #authScreen button{
-padding:12px 20px;
-margin:5px;
-border:none;
-border-radius:8px;
-background:var(--accent);
-cursor:pointer;
-font-weight:bold;
+padding:12px 20px;margin:5px;border:none;border-radius:8px;background:var(--accent);
+cursor:pointer;font-weight:bold;
 }
 #message{margin-top:10px;color:var(--accent)}
 
@@ -52,11 +35,8 @@ font-weight:bold;
 
 /* USERNAME MODAL */
 #usernameModal{
-display:none;
-position:fixed;inset:0;
-background:rgba(0,0,0,0.95);
-justify-content:center;align-items:center;
-z-index:1000;
+display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);
+justify-content:center;align-items:center;z-index:1000;
 }
 #usernameModal div{
 background:#111;padding:30px;border-radius:12px;width:300px;text-align:center;
@@ -157,7 +137,7 @@ footer{background:#020617;padding:30px;text-align:center;color:#9ca3af}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, deleteDoc, getDocs, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, deleteDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
 apiKey: "AIzaSyD0CpkbFpoKPvB1akarURWyzwiwftOiq5g",
@@ -219,10 +199,9 @@ onAuthStateChanged(auth, async (user)=>{
     mainSite.style.display="block";
 
     // Check if username exists
-const userDoc = await getDoc(doc(db,"users",user.uid));
-if(!userDoc.exists()){ usernameModal.style.display="flex"; } else {
-      usernameModal.style.display="none";
-    }
+    const userDoc = await getDoc(doc(db,"users",user.uid));
+    if(!userDoc.exists()){ usernameModal.style.display="flex"; }
+    else { usernameModal.style.display="none"; }
 
   } else {
     authScreen.style.display="flex";
@@ -236,13 +215,7 @@ saveUsername.onclick = async () => {
   const name = newUsername.value.trim();
   if(!name) return alert("Enter a username!");
   const user = auth.currentUser;
-  import { setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-import { setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-import { setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-await setDoc(doc(db,"users",user.uid), { username:name });
+  await setDoc(doc(db,"users",user.uid), { username:name });
   usernameModal.style.display="none";
 };
 
@@ -263,10 +236,10 @@ onSnapshot(q,(snapshot)=>{
   snapshot.forEach(async (docSnap)=>{
     const data = docSnap.data();
     const id = docSnap.id;
-    let usernameDisplay = data.email || "Anonymous";
+    let usernameDisplay = "Anonymous";
     try{
-     const userDoc = await getDoc(doc(db,"users",data.uid));
-if(userDoc.exists()) usernameDisplay = userDoc.data().username;
+      const userDoc = await getDoc(doc(db,"users",data.uid));
+      if(userDoc.exists()) usernameDisplay = userDoc.data().username;
     }catch(e){}
     const div = document.createElement("div");
     div.classList.add("comment");
