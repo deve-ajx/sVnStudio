@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>sVn Tech Agency</title>
+<title>sVn Tech Agency - Members</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
@@ -12,73 +11,213 @@
   --dark:#0b0b0b;
   --accent:#38bdf8;
   --light:#e5e7eb;
+  --card-bg:rgba(20,20,20,0.85);
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-body{background:var(--dark);color:var(--light);overflow-x:hidden}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{
+  background:var(--dark);
+  color:var(--light);
+  overflow-x:hidden;
+  scroll-behavior:smooth;
+  transition:background 0.3s;
+}
 
 /* AUTH SCREEN */
 #authScreen{
-display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;
-background:#000;position:fixed;width:100%;z-index:9999;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  background:linear-gradient(135deg,#111,#000);
+  position:fixed;
+  width:100%;
+  z-index:9999;
+  transition:opacity 0.5s;
 }
 #authScreen input{
-padding:12px;margin:10px;width:260px;border-radius:8px;border:1px solid var(--accent);
-background:#111;color:#fff;
+  padding:12px;
+  margin:10px;
+  width:260px;
+  border-radius:8px;
+  border:1px solid var(--accent);
+  background:#111;
+  color:#fff;
+  outline:none;
+  transition:0.3s;
+}
+#authScreen input:focus{
+  border-color:#0ff;
+  transform:scale(1.02);
 }
 #authScreen button{
-padding:12px 20px;margin:5px;border:none;border-radius:8px;background:var(--accent);
-cursor:pointer;font-weight:bold;
+  padding:12px 20px;
+  margin:5px;
+  border:none;
+  border-radius:8px;
+  background:var(--accent);
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
 }
-#message{margin-top:10px;color:var(--accent)}
-
-#mainSite{display:none}
-
-/* USERNAME MODAL */
-#usernameModal{
-display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);
-justify-content:center;align-items:center;z-index:1000;
+#authScreen button:hover{
+  background:#0fbdf8;
+  transform:scale(1.05);
 }
-#usernameModal div{
-background:#111;padding:30px;border-radius:12px;width:300px;text-align:center;
-}
-#usernameModal input{
-width:100%;padding:10px;margin:10px 0;border-radius:6px;border:1px solid #38bdf8;background:#000;color:#fff;
-}
-#usernameModal button{
-padding:10px 20px;background:#38bdf8;color:#000;border:none;border-radius:6px;cursor:pointer;
-}
+#message{margin-top:10px;color:#0ff;}
 
 /* HEADER */
 header{
-display:flex;justify-content:space-between;align-items:center;
-padding:20px 40px;background:rgba(15,15,15,.95);
-border-bottom:1px solid #111;backdrop-filter:blur(10px)
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px;
+  background:rgba(15,15,15,0.75);
+  border-bottom:1px solid #111;
+  backdrop-filter:blur(10px);
+  position:sticky;
+  top:0;
+  z-index:500;
 }
-.logo{width:60px;height:60px;border-radius:50%;padding:4px;border:2px solid var(--accent);transition:.6s}
-.logo:hover{transform:rotate(360deg) scale(1.1)}
-nav a{color:var(--light);margin-left:25px;text-decoration:none;font-weight:500}
-
-/* HERO */
-.hero{text-align:center;padding:140px 20px;position:relative}
-.brand{font-size:3.8rem;font-weight:800;letter-spacing:3px}
-
-/* BUTTONS */
-.btn{
-padding:15px 40px;border-radius:30px;background:transparent;color:var(--accent);
-border:2px solid var(--accent);cursor:pointer;font-size:1rem;transition:.4s
+.logo{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  padding:4px;
+  border:2px solid var(--accent);
+  transition:.6s;
 }
-.btn:hover{background:var(--accent);color:#000}
+.logo:hover{
+  transform:rotate(360deg) scale(1.1);
+}
+nav a{
+  color:var(--light);
+  margin-left:25px;
+  text-decoration:none;
+  font-weight:500;
+  cursor:pointer;
+  transition:0.3s;
+}
+nav a:hover{
+  color:var(--accent);
+  transform:scale(1.05);
+}
 
-/* MEMBERS SECTION */
-#membersSection{margin-top:50px;}
-.comment-box{margin-top:20px;}
-.comment{background:#111;padding:15px;border-radius:12px;margin-bottom:10px;position:relative;}
-.delete-btn{position:absolute;top:10px;right:10px;background:red;border:none;color:#fff;padding:4px 8px;border-radius:5px;cursor:pointer}
+/* MEMBERS CARDS */
+.member-card{
+  background:var(--card-bg);
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:15px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  transition:transform 0.3s, box-shadow 0.3s;
+}
+.member-card:hover{
+  transform:scale(1.03);
+  box-shadow:0 4px 15px rgba(0,255,255,0.3);
+}
+.member-card img{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  object-fit:cover;
+  transition:0.3s;
+}
+.member-card span{
+  font-weight:bold;
+  font-size:1.1rem;
+}
 
-footer{background:#020617;padding:30px;text-align:center;color:#9ca3af}
+/* MODALS */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  justify-content:center;
+  align-items:center;
+  z-index:1000;
+  opacity:0;
+  transition:opacity 0.3s;
+}
+.modal.show{
+  display:flex;
+  opacity:1;
+}
+.modal-content{
+  background:#111;
+  padding:30px;
+  border-radius:12px;
+  width:320px;
+  text-align:center;
+  transform:scale(0.8);
+  transition:transform 0.3s;
+}
+.modal.show .modal-content{
+  transform:scale(1);
+}
+.modal-content input,.modal-content textarea{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border-radius:6px;
+  border:1px solid var(--accent);
+  background:#000;
+  color:#fff;
+}
+.modal-content button{
+  padding:10px 20px;
+  background:var(--accent);
+  color:#000;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  transition:0.3s;
+}
+.modal-content button:hover{
+  background:#0fbdf8;
+}
+
+/* COMMENTS */
+.comment{
+  background:var(--card-bg);
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:10px;
+  position:relative;
+  transition:0.3s;
+}
+.comment:hover{
+  box-shadow:0 3px 10px rgba(0,255,255,0.2);
+}
+.delete-btn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:red;
+  border:none;
+  color:#fff;
+  padding:4px 8px;
+  border-radius:5px;
+  cursor:pointer;
+  transition:0.3s;
+}
+.delete-btn:hover{
+  background:#ff4d4d;
+}
+
+#membersPage{margin-top:30px;}
+#commentBox{margin-top:20px;}
+textarea{border-radius:8px;padding:10px;background:#111;color:#fff;border:1px solid var(--accent);}
+button.btn{margin-top:10px;padding:10px 20px;border:none;border-radius:8px;background:var(--accent);color:#000;font-weight:bold;cursor:pointer;transition:0.3s;}
+button.btn:hover{background:#0fbdf8;}
+footer{background:#020617;padding:30px;text-align:center;color:#9ca3af;margin-top:50px;}
 </style>
 </head>
-
 <body>
 
 <!-- AUTH SCREEN -->
@@ -90,54 +229,72 @@ footer{background:#020617;padding:30px;text-align:center;color:#9ca3af}
 <button id="loginBtn">Login</button>
 <button id="signupBtn">Sign Up</button>
 </div>
+<button id="checkVerificationBtn">I verified my email</button>
 <p id="message"></p>
 </div>
 
 <!-- USERNAME MODAL -->
-<div id="usernameModal">
-<div>
+<div class="modal" id="usernameModal">
+<div class="modal-content">
 <h3>Pick a Username</h3>
 <input type="text" id="newUsername" placeholder="Enter username">
 <button id="saveUsername">Save</button>
 </div>
 </div>
 
-<!-- MAIN WEBSITE -->
-<div id="mainSite">
+<!-- PROFILE EDIT MODAL -->
+<div class="modal" id="editProfileModal">
+<div class="modal-content">
+<h3>Edit Profile</h3>
+<img id="profilePreview" src="" alt="Profile Picture">
+<input type="file" id="profilePicInput">
+<input type="text" id="profileUsername" placeholder="Username">
+<textarea id="profileBio" placeholder="Bio"></textarea>
+<button id="saveProfileBtn">Save Profile</button>
+<button id="closeProfileBtn" style="background:red;margin-top:10px;">Close</button>
+</div>
+</div>
 
+<!-- MEMBER PROFILE VIEW MODAL -->
+<div class="modal" id="viewProfileModal">
+<div class="modal-content">
+<img id="viewProfilePic" src="" alt="Profile Picture" style="width:100px;height:100px;border-radius:50%;object-fit:cover;">
+<h3 id="viewUsername"></h3>
+<p id="viewBio"></p>
+<button id="closeViewProfileBtn" style="background:red;margin-top:10px;">Close</button>
+</div>
+</div>
+
+<!-- MAIN SITE -->
+<div id="mainSite">
 <header>
 <img class="logo" src="https://res.cloudinary.com/dm6k0etap/image/upload/v1769549277/0919b84a-9700-465e-8827-3a4e24a11790_idxg1u.jpg">
 <nav>
-<a href="#about">About</a>
-<a href="#services">Services</a>
-<a href="#tech">Tech</a>
-<a href="#contact">Contact</a>
-<a href="#" id="logoutBtn" style="color:red;">Logout</a>
+<a id="editProfileBtn">Edit Profile</a>
+<a id="logoutBtn" style="color:red;">Logout</a>
 </nav>
 </header>
 
-<div class="hero">
-<div class="brand">sVn STUDIO</div>
-<p>Modern websites, logos, and digital adverts built with clean code and strong tech identity.</p>
+<div id="membersPage">
+<h2>Members</h2>
+<div id="membersList"></div>
 </div>
 
-<section id="membersSection">
-<h2 style="text-align:center;">Members Only Comments</h2>
-<div style="max-width:700px;margin:auto;">
-<textarea id="commentInput" rows="3" style="width:100%;border-radius:8px;padding:10px;background:#111;color:#fff;border:1px solid #38bdf8;"></textarea>
-<button class="btn" id="postCommentBtn" style="margin-top:10px;">Post Comment</button>
-<div class="comment-box" id="commentBox"></div>
-</div>
+<section id="commentsSection">
+<h2>Members Only Comments</h2>
+<textarea id="commentInput" rows="3"></textarea>
+<button class="btn" id="postCommentBtn">Post Comment</button>
+<div id="commentBox"></div>
 </section>
 
 <footer>© 2026 sVn Studio Tech Agency — Modern • Clean • Powerful</footer>
-
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, deleteDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, deleteDoc, getDoc, setDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 const firebaseConfig = {
 apiKey: "AIzaSyD0CpkbFpoKPvB1akarURWyzwiwftOiq5g",
@@ -151,8 +308,7 @@ appId: "1:808981598394:web:fe6789050b9a39e288f283"
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-window.addEventListener("DOMContentLoaded", async () => {
+const storage = getStorage(app);
 
 const authScreen = document.getElementById("authScreen");
 const mainSite = document.getElementById("mainSite");
@@ -162,34 +318,63 @@ const message = document.getElementById("message");
 const loginBtn = document.getElementById("loginBtn");
 const signupBtn = document.getElementById("signupBtn");
 const logoutBtn = document.getElementById("logoutBtn");
+const checkVerificationBtn = document.getElementById("checkVerificationBtn");
+
 const usernameModal = document.getElementById("usernameModal");
 const newUsername = document.getElementById("newUsername");
 const saveUsername = document.getElementById("saveUsername");
+
+const editProfileModal = document.getElementById("editProfileModal");
+const editProfileBtn = document.getElementById("editProfileBtn");
+const closeProfileBtn = document.getElementById("closeProfileBtn");
+const profilePreview = document.getElementById("profilePreview");
+const profilePicInput = document.getElementById("profilePicInput");
+const profileUsername = document.getElementById("profileUsername");
+const profileBio = document.getElementById("profileBio");
+
+const membersList = document.getElementById("membersList");
+const viewProfileModal = document.getElementById("viewProfileModal");
+const viewProfilePic = document.getElementById("viewProfilePic");
+const viewUsername = document.getElementById("viewUsername");
+const viewBio = document.getElementById("viewBio");
+const closeViewProfileBtn = document.getElementById("closeViewProfileBtn");
+
 const commentInput = document.getElementById("commentInput");
 const postCommentBtn = document.getElementById("postCommentBtn");
 const commentBox = document.getElementById("commentBox");
 
-// LOGIN
+// AUTH
 loginBtn.onclick = async () => {
-  try{
+  try {
     const userCred = await signInWithEmailAndPassword(auth,email.value,password.value);
+    await userCred.user.reload();
     if(!userCred.user.emailVerified){
-      message.innerText="Verify your email before login!";
+      message.innerText = "Verify your email before login!";
       return;
     }
   } catch(err){ message.innerText = err.message; }
 };
 
-// SIGNUP
 signupBtn.onclick = async () => {
-  try{
+  try {
     const userCred = await createUserWithEmailAndPassword(auth,email.value,password.value);
     await sendEmailVerification(userCred.user);
     message.innerText="Account created! Check your email to verify.";
   } catch(err){ message.innerText = err.message; }
 };
 
-// LOGOUT
+checkVerificationBtn.onclick = async () => {
+  const user = auth.currentUser;
+  if(user){
+    await user.reload();
+    if(user.emailVerified){
+      message.innerText = "Email verified! Reloading site...";
+    } else {
+      message.innerText = "Email not verified yet!";
+    }
+  }
+};
+
 logoutBtn.onclick = async () => { await signOut(auth); }
 
 // ON AUTH STATE
@@ -198,31 +383,90 @@ onAuthStateChanged(auth, async (user)=>{
     authScreen.style.display="none";
     mainSite.style.display="block";
 
-    // ✅ Only show username modal AFTER email verified
     const userDoc = await getDoc(doc(db,"users",user.uid));
-    if(!userDoc.exists()){ 
-      usernameModal.style.display="flex"; 
-    } else { 
-      usernameModal.style.display="none"; 
+    if(!userDoc.exists()){
+      usernameModal.classList.add("show");
+    } else {
+      usernameModal.classList.remove("show");
+      const data = userDoc.data();
+      profilePreview.src = data.photoURL || "https://via.placeholder.com/80";
+      profileUsername.value = data.username || "";
+      profileBio.value = data.bio || "";
     }
-
+    loadMembers();
   } else {
     authScreen.style.display="flex";
     mainSite.style.display="none";
-    usernameModal.style.display="none";
+    usernameModal.classList.remove("show");
   }
 });
 
-// SAVE USERNAME
+// USERNAME
 saveUsername.onclick = async () => {
   const name = newUsername.value.trim();
   if(!name) return alert("Enter a username!");
   const user = auth.currentUser;
   await setDoc(doc(db,"users",user.uid), { username:name });
-  usernameModal.style.display="none";
+  usernameModal.classList.remove("show");
 };
 
-// POST COMMENT
+// PROFILE EDIT
+editProfileBtn.onclick = ()=>{ editProfileModal.classList.add("show"); }
+closeProfileBtn.onclick = ()=>{ editProfileModal.classList.remove("show"); }
+
+profilePicInput.onchange = (e) => {
+  if (e.target.files && e.target.files[0]) {
+    profilePreview.src = URL.createObjectURL(e.target.files[0]);
+  }
+}
+
+saveProfileBtn.onclick = async () => {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  let photoURL = profilePreview.src;
+  if(profilePicInput.files.length > 0){
+    const file = profilePicInput.files[0];
+    const storageRef = ref(storage, `profile_pics/${user.uid}`);
+    await uploadBytes(storageRef, file);
+    photoURL = await getDownloadURL(storageRef);
+  }
+
+  await setDoc(doc(db,"users",user.uid),{
+    username: profileUsername.value.trim(),
+    bio: profileBio.value.trim(),
+    photoURL
+  },{ merge:true });
+
+  profilePreview.src = photoURL;
+  editProfileModal.classList.remove("show");
+  loadMembers();
+};
+
+// MEMBERS LIST
+async function loadMembers(){
+  membersList.innerHTML="";
+  const usersSnap = await getDocs(collection(db,"users"));
+  usersSnap.forEach(docSnap=>{
+    const data = docSnap.data();
+    const div = document.createElement("div");
+    div.classList.add("member-card");
+    div.innerHTML = `<img src="${data.photoURL||'https://via.placeholder.com/50'}" loading="lazy">
+                     <span>${data.username||'Anonymous'}</span>`;
+    div.onclick = ()=>{
+      viewProfilePic.src = data.photoURL || 'https://via.placeholder.com/100';
+      viewUsername.innerText = data.username || 'Anonymous';
+      viewBio.innerText = data.bio || '';
+      viewProfileModal.classList.add("show");
+    };
+    membersList.appendChild(div);
+  });
+}
+
+// VIEW PROFILE MODAL
+closeViewProfileBtn.onclick = ()=>{ viewProfileModal.classList.remove("show"); }
+
+// COMMENTS
 postCommentBtn.onclick = async ()=>{
   const text = commentInput.value.trim();
   if(!text) return;
@@ -232,11 +476,11 @@ postCommentBtn.onclick = async ()=>{
   commentInput.value="";
 };
 
-// REALTIME COMMENTS
-const q = query(collection(db,"comments"), orderBy("timestamp","asc"));
-onSnapshot(q,(snapshot)=>{
+// Real-time comments
+const commentsQuery = query(collection(db,"comments"), orderBy("timestamp","asc"));
+onSnapshot(commentsQuery,(snapshot)=>{
   commentBox.innerHTML="";
-  snapshot.forEach(async (docSnap)=>{
+  snapshot.forEach(async docSnap=>{
     const data = docSnap.data();
     const id = docSnap.id;
     let usernameDisplay = "Anonymous";
@@ -251,15 +495,12 @@ onSnapshot(q,(snapshot)=>{
       const delBtn = document.createElement("button");
       delBtn.classList.add("delete-btn");
       delBtn.textContent="Delete";
-      delBtn.onclick = async ()=>{await deleteDoc(doc(db,"comments",id))};
+      delBtn.onclick = async ()=>{ await deleteDoc(doc(db,"comments",id)); };
       div.appendChild(delBtn);
     }
     commentBox.appendChild(div);
   });
 });
-
-});
 </script>
-
 </body>
 </html>
