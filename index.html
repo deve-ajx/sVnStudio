@@ -219,10 +219,8 @@ onAuthStateChanged(auth, async (user)=>{
     mainSite.style.display="block";
 
     // Check if username exists
-    const userSnap = await getDocs(query(collection(db,"users"), where("uid","==",user.uid)));
-    if(userSnap.empty){
-      usernameModal.style.display="flex";
-    } else {
+const userDoc = await getDoc(doc(db,"users",user.uid));
+if(!userDoc.exists()){ usernameModal.style.display="flex"; } else {
       usernameModal.style.display="none";
     }
 
@@ -238,7 +236,13 @@ saveUsername.onclick = async () => {
   const name = newUsername.value.trim();
   if(!name) return alert("Enter a username!");
   const user = auth.currentUser;
-  await addDoc(collection(db,"users"), { uid:user.uid, username:name });
+  import { setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import { setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import { setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+await setDoc(doc(db,"users",user.uid), { username:name });
   usernameModal.style.display="none";
 };
 
@@ -261,8 +265,8 @@ onSnapshot(q,(snapshot)=>{
     const id = docSnap.id;
     let usernameDisplay = data.email || "Anonymous";
     try{
-      const userSnap = await getDocs(query(collection(db,"users"), where("uid","==",data.uid)));
-      if(!userSnap.empty) usernameDisplay = userSnap.docs[0].data().username;
+     const userDoc = await getDoc(doc(db,"users",data.uid));
+if(userDoc.exists()) usernameDisplay = userDoc.data().username;
     }catch(e){}
     const div = document.createElement("div");
     div.classList.add("comment");
