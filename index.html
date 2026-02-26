@@ -514,7 +514,35 @@ Allah loves those who seek Him sincerely.”
 <video src="https://files.catbox.moe/vappno.mov" width="100%" controls></video>
 </div>
 </div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyD0CpkbFpoKPvB1akarURWyzwiwftOiq5g",
+  authDomain: "studio-1d6b7.firebaseapp.com",
+  projectId: "studio-1d6b7",
+  storageBucket: "studio-1d6b7.firebasestorage.app",
+  messagingSenderId: "808981598394",
+  appId: "1:808981598394:web:fe6789050b9a39e288f283",
+  databaseURL: "https://emaji-phones-store-default-rtdb.firebaseio.com/"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const storage = getStorage(app);
+
+window.db = db;
+window.storage = storage;
+window.dbRef = ref;
+window.push = push;
+window.onValue = onValue;
+window.remove = remove;
+window.sRef = sRef;
+window.uploadBytes = uploadBytes;
+window.getDownloadURL = getDownloadURL;
+window.deleteObject = deleteObject;
 <script>
 // Hamburger
 const hamburger=document.getElementById('hamburger');
@@ -558,87 +586,81 @@ const message=encodeURIComponent(`Hello! I’m interested in this item and would
 window.open(`https://wa.me/2348134654462?text=${message}`,'_blank');
 });
 
-// OWNER PANEL SCRIPT
+// OWNER PANEL SCRIPT 
 const SECRET = "mymagickey";
 
 function showAdmin(){
   const key = prompt("Don't Hesitate To Chat Us! via WhatsApp");
   if(key === SECRET){
     document.getElementById('adminPanel').style.display='block';
-    loadPosts();
   } else {
     alert("your happiness matters!");
   }
 }
 
+const postsRef = dbRef(db, "posts");
+
 function loadPosts(){
-  const posts = JSON.parse(localStorage.getItem('posts')||"[]");
   const publicDiv = document.getElementById('publicPosts');
   const adminDiv = document.getElementById('adminPosts');
-  publicDiv.innerHTML = "";
-  adminDiv.innerHTML = "";
-  posts.forEach((p,i)=>{
-    let html = `<div class="card">`;
-    if(p.image) html += `<img src="${p.image}">`;
-    if(p.video) html += `<video src="${p.video}" controls></video>`;
-    if(p.text) html += `<p>${p.text}</p>`;
-    html += `</div>`;
-    publicDiv.innerHTML += html;
-    
-    let adminHtml = `<div class="card">`;
-    if(p.image) adminHtml += `<img src="${p.image}">`;
-    if(p.video) adminHtml += `<video src="${p.video}" controls></video>`;
-    if(p.text) adminHtml += `<p>${p.text}</p>`;
-    adminHtml += `<button class="glass-btn" onclick="deletePost(${i})">Delete</button></div>`;
-    adminDiv.innerHTML += adminHtml;
+
+  onValue(postsRef, (snapshot)=>{
+    publicDiv.innerHTML = "";
+    adminDiv.innerHTML = "";
+
+    const data = snapshot.val();
+    if(!data) return;
+
+    Object.keys(data).reverse().forEach((key)=>{
+      const p = data[key];
+
+      let html = `<div class="card">`;
+      if(p.image) html += `<img src="${p.image}">`;
+      if(p.video) html += `<video src="${p.video}" controls></video>`;
+      if(p.text) html += `<p>${p.text}</p>`;
+      html += `</div>`;
+      publicDiv.innerHTML += html;
+
+      let adminHtml = `<div class="card">`;
+      if(p.image) adminHtml += `<img src="${p.image}">`;
+      if(p.video) adminHtml += `<video src="${p.video}" controls></video>`;
+      if(p.text) adminHtml += `<p>${p.text}</p>`;
+      adminHtml += `<button class="glass-btn" onclick="deletePost('${key}','${p.image || ''}','${p.video || ''}')">Delete</button></div>`;
+      adminDiv.innerHTML += adminHtml;
+    });
   });
 }
 
-function addPost(){
+async function addPost(){
   const text = document.getElementById('postContent').value;
-  const imgInput = document.getElementById('postImage');
-  const vidInput = document.getElementById('postVideo');
-  const posts = JSON.parse(localStorage.getItem('posts')||"[]");
+  const imgFile = document.getElementById('postImage').files[0];
+  const vidFile = document.getElementById('postVideo').files[0];
 
-  if(!text && !imgInput.files[0] && !vidInput.files[0]) return;
+  if(!text && !imgFile && !vidFile) return;
 
-  const reader = new FileReader();
-  if(vidInput.files[0]){
-    reader.onload = function(e){
-      let videoData = e.target.result;
-      let imageData = null;
-      if(imgInput.files[0]){
-        const imgReader = new FileReader();
-        imgReader.onload = function(ev){
-          imageData = ev.target.result;
-          posts.unshift({text,image:imageData,video:videoData});
-          localStorage.setItem('posts',JSON.stringify(posts));
-          clearInputs();
-          loadPosts();
-        }
-        imgReader.readAsDataURL(imgInput.files[0]);
-      } else {
-        posts.unshift({text,image:null,video:videoData});
-        localStorage.setItem('posts',JSON.stringify(posts));
-        clearInputs();
-        loadPosts();
-      }
-    }
-    reader.readAsDataURL(vidInput.files[0]);
-  } else if(imgInput.files[0]){
-    reader.onload = function(e){
-      posts.unshift({text,image:e.target.result,video:null});
-      localStorage.setItem('posts',JSON.stringify(posts));
-      clearInputs();
-      loadPosts();
-    }
-    reader.readAsDataURL(imgInput.files[0]);
-  } else {
-    posts.unshift({text,image:null,video:null});
-    localStorage.setItem('posts',JSON.stringify(posts));
-    clearInputs();
-    loadPosts();
+  let imageURL = null;
+  let videoURL = null;
+
+  if(imgFile){
+    const imgStorageRef = sRef(storage, 'images/' + Date.now() + "_" + imgFile.name);
+    await uploadBytes(imgStorageRef, imgFile);
+    imageURL = await getDownloadURL(imgStorageRef);
   }
+
+  if(vidFile){
+    const vidStorageRef = sRef(storage, 'videos/' + Date.now() + "_" + vidFile.name);
+    await uploadBytes(vidStorageRef, vidFile);
+    videoURL = await getDownloadURL(vidStorageRef);
+  }
+
+  await push(postsRef,{
+    text: text || "",
+    image: imageURL,
+    video: videoURL,
+    createdAt: Date.now()
+  });
+
+  clearInputs();
 }
 
 function clearInputs(){
@@ -647,26 +669,21 @@ function clearInputs(){
   document.getElementById('postVideo').value="";
 }
 
-function deletePost(i){
-  const posts = JSON.parse(localStorage.getItem('posts')||"[]");
-  posts.splice(i,1);
-  localStorage.setItem('posts',JSON.stringify(posts));
-  loadPosts();
+async function deletePost(key,imageURL,videoURL){
+  await remove(dbRef(db, "posts/" + key));
+
+  if(imageURL){
+    const imgRef = sRef(storage, imageURL);
+    deleteObject(imgRef).catch(()=>{});
+  }
+
+  if(videoURL){
+    const vidRef = sRef(storage, videoURL);
+    deleteObject(vidRef).catch(()=>{});
+  }
 }
 
-// Load public posts on page load
 loadPosts();
-// Disable right click
-document.addEventListener('contextmenu', function(e) {
-  e.preventDefault();
-});
-
-// Disable long press on images
-document.addEventListener('touchstart', function(e) {
-  if (e.target.tagName === "IMG") {
-    e.preventDefault();
-  }
-});
 </script>
 
 </body>
