@@ -514,134 +514,8 @@ Allah loves those who seek Him sincerely.”
 <video src="https://files.catbox.moe/vappno.mov" width="100%" controls></video>
 </div>
 </div>
-<!-- FIREBASE MODULE -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyD0CpkbFpoKPvB1akarURWyzwiwftOiq5g",
-  authDomain: "studio-1d6b7.firebaseapp.com",
-  projectId: "studio-1d6b7",
-  storageBucket: "studio-1d6b7.firebasestorage.app",
-  messagingSenderId: "808981598394",
-  appId: "1:808981598394:web:fe6789050b9a39e288f283",
-  databaseURL: "https://emaji-phones-store-default-rtdb.firebaseio.com/"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const storage = getStorage(app);
-
-const postsRef = ref(db, "posts");
-
-function loadPosts(){
-  const publicDiv = document.getElementById('publicPosts');
-  const adminDiv = document.getElementById('adminPosts');
-
-  onValue(postsRef, (snapshot)=>{
-    publicDiv.innerHTML = "";
-    adminDiv.innerHTML = "";
-
-    const data = snapshot.val();
-    if(!data) return;
-
-    Object.keys(data).reverse().forEach((key)=>{
-      const p = data[key];
-
-      let html = `<div class="card">`;
-      if(p.image) html += `<img src="${p.image}">`;
-      if(p.video) html += `<video src="${p.video}" controls></video>`;
-      if(p.text) html += `<p>${p.text}</p>`;
-      html += `</div>`;
-      publicDiv.innerHTML += html;
-
-      let adminHtml = `<div class="card">`;
-      if(p.image) adminHtml += `<img src="${p.image}">`;
-      if(p.video) adminHtml += `<video src="${p.video}" controls></video>`;
-      if(p.text) adminHtml += `<p>${p.text}</p>`;
-      adminHtml += `<button class="glass-btn" onclick="deletePost('${key}','${p.image || ''}','${p.video || ''}')">Delete</button></div>`;
-      adminDiv.innerHTML += adminHtml;
-    });
-  });
-}
-
-async function addPost(){
-  const text = document.getElementById('postContent').value;
-  const imgFile = document.getElementById('postImage').files[0];
-  const vidFile = document.getElementById('postVideo').files[0];
-
-  if(!text && !imgFile && !vidFile) return;
-
-  let imageURL = null;
-  let videoURL = null;
-
-  if(imgFile){
-    const imgStorageRef = sRef(storage, 'images/' + Date.now() + "_" + imgFile.name);
-    await uploadBytes(imgStorageRef, imgFile);
-    imageURL = await getDownloadURL(imgStorageRef);
-  }
-
-  if(vidFile){
-    const vidStorageRef = sRef(storage, 'videos/' + Date.now() + "_" + vidFile.name);
-    await uploadBytes(vidStorageRef, vidFile);
-    videoURL = await getDownloadURL(vidStorageRef);
-  }
-
-  await push(postsRef,{
-    text: text || "",
-    image: imageURL,
-    video: videoURL,
-    createdAt: Date.now()
-  });
-
-  clearInputs();
-}
-
-function clearInputs(){
-  document.getElementById('postContent').value="";
-  document.getElementById('postImage').value="";
-  document.getElementById('postVideo').value="";
-}
-
-async function deletePost(key,imageURL,videoURL){
-  await remove(ref(db, "posts/" + key));
-
-  if(imageURL){
-    const imgRef = sRef(storage, imageURL);
-    deleteObject(imgRef).catch(()=>{});
-  }
-
-  if(videoURL){
-    const vidRef = sRef(storage, videoURL);
-    deleteObject(vidRef).catch(()=>{});
-  }
-}
-
-function showAdmin(){
-  const key = prompt("Enter Admin Key");
-  if(key === "mymagickey"){
-    document.getElementById('adminPanel').style.display='block';
-  } else {
-    alert("Wrong key");
-  }
-}
-
-loadPosts();
-
-/* EXPOSE FUNCTIONS TO HTML BUTTONS */
-window.showAdmin = showAdmin;
-window.addPost = addPost;
-window.loadPosts = loadPosts;
-window.deletePost = deletePost;
-
-</script>
-
-
-<!-- NORMAL SCRIPT (DO NOT TOUCH) -->
 <script>
-
 // Hamburger
 const hamburger=document.getElementById('hamburger');
 const navMenu=document.getElementById('navMenu');
@@ -664,13 +538,144 @@ document.getElementById('modal').style.display='flex';
 }
 function closeModal(){document.getElementById('modal').style.display='none';}
 
-// BUY BUTTON
+// Update Videos
+function openUpdate(){document.getElementById('updateModal').style.display='flex';}
+function closeUpdate(){document.getElementById('updateModal').style.display='none';}
+function playVideo(src){
+const player=document.getElementById('updatePlayer');
+player.src=src;
+player.play();
+}
+
+// CEO Video
+function openCeoVideo(){document.getElementById('ceoModal').style.display='flex';}
+function closeCeo(){document.getElementById('ceoModal').style.display='none';}
+
+// BUY BUTTON FUNCTION
 document.getElementById('modal-buy-btn').addEventListener('click',function(){
 const name=document.getElementById('modal-name').textContent;
 const message=encodeURIComponent(`Hello! I’m interested in this item and would love your assistance to complete the purchase. Thank you! ${name}`);
 window.open(`https://wa.me/2348134654462?text=${message}`,'_blank');
 });
 
+<!-- FIREBASE MODULE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD0CpkbFpoKPvB1akarURWyzwiwftOiq5g",
+  authDomain: "studio-1d6b7.firebaseapp.com",
+  projectId: "studio-1d6b7",
+  storageBucket: "studio-1d6b7.firebasestorage.app",
+  messagingSenderId: "808981598394",
+  appId: "1:808981598394:web:fe6789050b9a39e288f283",
+  databaseURL: "https://emaji-phones-store-default-rtdb.firebaseio.com/"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const storage = getStorage(app);
+const postsRef = ref(db, "posts");
+
+function showAdmin(){
+  const key = prompt("Enter Admin Key");
+  if(key === "mymagickey"){
+    document.getElementById('adminPanel').style.display='block';
+  } else {
+    alert("Wrong key");
+  }
+}
+
+function loadPosts(){
+  const publicDiv = document.getElementById('publicPosts');
+  const adminDiv = document.getElementById('adminPosts');
+
+  onValue(postsRef, (snapshot)=>{
+    publicDiv.innerHTML="";
+    adminDiv.innerHTML="";
+
+    const data = snapshot.val();
+    if(!data) return;
+
+    Object.keys(data).reverse().forEach((key)=>{
+      const p = data[key];
+
+      let html=`<div class="card">`;
+      if(p.image) html+=`<img src="${p.image}">`;
+      if(p.video) html+=`<video src="${p.video}" controls></video>`;
+      if(p.text) html+=`<p>${p.text}</p>`;
+      html+=`</div>`;
+      publicDiv.innerHTML+=html;
+
+      let adminHtml=`<div class="card">`;
+      if(p.image) adminHtml+=`<img src="${p.image}">`;
+      if(p.video) adminHtml+=`<video src="${p.video}" controls></video>`;
+      if(p.text) adminHtml+=`<p>${p.text}</p>`;
+      adminHtml+=`<button class="glass-btn" onclick="deletePost('${key}','${p.image||''}','${p.video||''}')">Delete</button></div>`;
+      adminDiv.innerHTML+=adminHtml;
+    });
+  });
+}
+
+async function addPost(){
+  const text=document.getElementById('postContent').value;
+  const imgFile=document.getElementById('postImage').files[0];
+  const vidFile=document.getElementById('postVideo').files[0];
+
+  if(!text && !imgFile && !vidFile) return;
+
+  let imageURL=null;
+  let videoURL=null;
+
+  if(imgFile){
+    const imgRef=sRef(storage,'images/'+Date.now()+"_"+imgFile.name);
+    await uploadBytes(imgRef,imgFile);
+    imageURL=await getDownloadURL(imgRef);
+  }
+
+  if(vidFile){
+    const vidRef=sRef(storage,'videos/'+Date.now()+"_"+vidFile.name);
+    await uploadBytes(vidRef,vidFile);
+    videoURL=await getDownloadURL(vidRef);
+  }
+
+  await push(postsRef,{
+    text:text||"",
+    image:imageURL,
+    video:videoURL,
+    createdAt:Date.now()
+  });
+
+  clearInputs();
+}
+
+function clearInputs(){
+  document.getElementById('postContent').value="";
+  document.getElementById('postImage').value="";
+  document.getElementById('postVideo').value="";
+}
+
+async function deletePost(key,imageURL,videoURL){
+  await remove(ref(db,"posts/"+key));
+
+  if(imageURL){
+    const imgRef=sRef(storage,imageURL);
+    deleteObject(imgRef).catch(()=>{});
+  }
+
+  if(videoURL){
+    const vidRef=sRef(storage,videoURL);
+    deleteObject(vidRef).catch(()=>{});
+  }
+}
+
+loadPosts();
+
+window.showAdmin=showAdmin;
+window.addPost=addPost;
+window.deletePost=deletePost;
 </script>
 
 </body>
