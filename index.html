@@ -514,10 +514,11 @@ Allah loves those who seek Him sincerely.”
 <video src="https://files.catbox.moe/vappno.mov" width="100%" controls></video>
 </div>
 </div>
+<!-- FIREBASE MODULE -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD0CpkbFpoKPvB1akarURWyzwiwftOiq5g",
@@ -533,79 +534,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const storage = getStorage(app);
 
-window.db = db;
-window.storage = storage;
-window.dbRef = ref;
-window.push = push;
-window.onValue = onValue;
-window.remove = remove;
-window.sRef = sRef;
-window.uploadBytes = uploadBytes;
-window.getDownloadURL = getDownloadURL;
-window.deleteObject = deleteObject;
-
-// Add this at the end of your Firebase module script
-window.showAdmin = showAdmin;
-window.addPost = addPost;
-window.loadPosts = loadPosts;
-window.deletePost = deletePost;
-
-<script>
-// Hamburger
-const hamburger=document.getElementById('hamburger');
-const navMenu=document.getElementById('navMenu');
-hamburger.onclick=()=>{navMenu.style.display=navMenu.style.display==='flex'?'none':'flex';};
-
-// Dark/Light
-function toggleMode(){
-document.body.classList.toggle('light');
-localStorage.setItem('mode',document.body.classList.contains('light')?'light':'dark');
-}
-if(localStorage.getItem('mode')==='light'){document.body.classList.add('light');}
-
-// Product Modal
-function showModal(card){
-document.getElementById('modal-img').src=card.querySelector('img').src;
-document.getElementById('modal-name').textContent=card.querySelector('h3').textContent;
-document.getElementById('modal-price').textContent=card.querySelector('.price').textContent;
-document.getElementById('modal-buy-btn').style.display='block';
-document.getElementById('modal').style.display='flex';
-}
-function closeModal(){document.getElementById('modal').style.display='none';}
-
-// Update Videos
-function openUpdate(){document.getElementById('updateModal').style.display='flex';}
-function closeUpdate(){document.getElementById('updateModal').style.display='none';}
-function playVideo(src){
-const player=document.getElementById('updatePlayer');
-player.src=src;
-player.play();
-}
-
-// CEO Video
-function openCeoVideo(){document.getElementById('ceoModal').style.display='flex';}
-function closeCeo(){document.getElementById('ceoModal').style.display='none';}
-
-// BUY BUTTON FUNCTION
-document.getElementById('modal-buy-btn').addEventListener('click',function(){
-const name=document.getElementById('modal-name').textContent;
-const message=encodeURIComponent(`Hello! I’m interested in this item and would love your assistance to complete the purchase. Thank you! ${name}`);
-window.open(`https://wa.me/2348134654462?text=${message}`,'_blank');
-});
-
-// OWNER PANEL SCRIPT 
-const SECRET = "mymagickey";
-
-function showAdmin(){
-  const key = prompt("Don't Hesitate To Chat Us! via WhatsApp");
-  if(key === SECRET){
-    document.getElementById('adminPanel').style.display='block';
-  } else {
-    alert("your happiness matters!");
-  }
-}
-
-const postsRef = dbRef(db, "posts");
+const postsRef = ref(db, "posts");
 
 function loadPosts(){
   const publicDiv = document.getElementById('publicPosts');
@@ -677,7 +606,7 @@ function clearInputs(){
 }
 
 async function deletePost(key,imageURL,videoURL){
-  await remove(dbRef(db, "posts/" + key));
+  await remove(ref(db, "posts/" + key));
 
   if(imageURL){
     const imgRef = sRef(storage, imageURL);
@@ -690,7 +619,58 @@ async function deletePost(key,imageURL,videoURL){
   }
 }
 
+function showAdmin(){
+  const key = prompt("Enter Admin Key");
+  if(key === "mymagickey"){
+    document.getElementById('adminPanel').style.display='block';
+  } else {
+    alert("Wrong key");
+  }
+}
+
 loadPosts();
+
+/* EXPOSE FUNCTIONS TO HTML BUTTONS */
+window.showAdmin = showAdmin;
+window.addPost = addPost;
+window.loadPosts = loadPosts;
+window.deletePost = deletePost;
+
+</script>
+
+
+<!-- NORMAL SCRIPT (DO NOT TOUCH) -->
+<script>
+
+// Hamburger
+const hamburger=document.getElementById('hamburger');
+const navMenu=document.getElementById('navMenu');
+hamburger.onclick=()=>{navMenu.style.display=navMenu.style.display==='flex'?'none':'flex';};
+
+// Dark/Light
+function toggleMode(){
+document.body.classList.toggle('light');
+localStorage.setItem('mode',document.body.classList.contains('light')?'light':'dark');
+}
+if(localStorage.getItem('mode')==='light'){document.body.classList.add('light');}
+
+// Product Modal
+function showModal(card){
+document.getElementById('modal-img').src=card.querySelector('img').src;
+document.getElementById('modal-name').textContent=card.querySelector('h3').textContent;
+document.getElementById('modal-price').textContent=card.querySelector('.price').textContent;
+document.getElementById('modal-buy-btn').style.display='block';
+document.getElementById('modal').style.display='flex';
+}
+function closeModal(){document.getElementById('modal').style.display='none';}
+
+// BUY BUTTON
+document.getElementById('modal-buy-btn').addEventListener('click',function(){
+const name=document.getElementById('modal-name').textContent;
+const message=encodeURIComponent(`Hello! I’m interested in this item and would love your assistance to complete the purchase. Thank you! ${name}`);
+window.open(`https://wa.me/2348134654462?text=${message}`,'_blank');
+});
+
 </script>
 
 </body>
