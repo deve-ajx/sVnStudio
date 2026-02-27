@@ -380,6 +380,25 @@ Allah loves those who seek Him sincerely.”
 <img src="https://files.catbox.moe/ulc5we.jpeg">
 </section>
 
+<section class="container" id="adminSection">
+<h2>Only Admin</h2>
+
+<div id="loginBox">
+<input type="email" id="adminEmail" placeholder="Email" class="glass-btn"><br><br>
+<input type="password" id="adminPassword" placeholder="Password" class="glass-btn"><br><br>
+<button class="glass-btn" onclick="adminLogin()">Login</button>
+<p id="loginMessage"></p>
+</div>
+
+<div id="adminPanel" style="display:none;">
+<textarea id="postText" placeholder="Write update..." style="width:100%;height:100px;margin-bottom:10px;"></textarea>
+<input type="text" id="postImageUrl" placeholder="Image URL (optional)" style="width:100%;margin-bottom:10px;">
+<button class="glass-btn" onclick="createPost()">Post</button>
+</div>
+
+<div id="publicPosts" style="margin-top:40px;"></div>
+</section>
+
 <section class="container" id="products">
 <h2>Our Premium iPhones</h2>
 <div class="products">
@@ -667,6 +686,119 @@ document.addEventListener('touchstart', function(e) {
     e.preventDefault();
   }
 });
+</script>
+
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCqA4wzJwShykkdYfWS3C3RrjuHYPUAMyE",
+  authDomain: "iphones-bf5ad.firebaseapp.com",
+  projectId: "iphones-bf5ad",
+  storageBucket: "iphones-bf5ad.firebasestorage.app",
+  messagingSenderId: "1109453695",
+  appId: "1:1109453695:web:2f845e788a34de6960084a"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const ADMIN_EMAIL = "aliemaji01@gmail.com";
+
+</script>
+
+<!-- FIREBASE ADMIN SCRIPT -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyCqA4wzJwShykkdYfWS3C3RrjuHYPUAMyE",
+  authDomain: "iphones-bf5ad.firebaseapp.com",
+  projectId: "iphones-bf5ad",
+  storageBucket: "iphones-bf5ad.firebasestorage.app",
+  messagingSenderId: "1109453695",
+  appId: "1:1109453695:web:2f845e788a34de6960084a"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const ADMIN_EMAIL = "aliemaji01@gmail.com";
+
+// Admin login function
+window.adminLogin = async function(){
+  const email = document.getElementById("adminEmail").value;
+  const password = document.getElementById("adminPassword").value;
+  const message = document.getElementById("loginMessage");
+
+  if(email !== ADMIN_EMAIL){
+    message.innerText = "Access Denied";
+    return;
+  }
+
+  try{
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+    if(!userCredential.user.emailVerified){
+      message.innerText = "Please verify your email first.";
+      return;
+    }
+
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
+    message.innerText = "Login Successful";
+
+  }catch(error){
+    message.innerText = error.message;
+  }
+};
+
+// Create a new post
+window.createPost = async function(){
+  const text = document.getElementById("postText").value;
+  const imageUrl = document.getElementById("postImageUrl").value;
+
+  if(!text && !imageUrl) return;
+
+  await addDoc(collection(db, "posts"), {
+    text: text,
+    image: imageUrl || null,
+    createdAt: serverTimestamp()
+  });
+
+  document.getElementById("postText").value = "";
+  document.getElementById("postImageUrl").value = "";
+  loadPosts();
+};
+
+// Load posts for everyone to see
+async function loadPosts(){
+  const postsDiv = document.getElementById("publicPosts");
+  postsDiv.innerHTML = "";
+
+  const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(q);
+
+  snapshot.forEach(doc=>{
+    const data = doc.data();
+    let html = `<div class="card">`;
+    if(data.image) html += `<img src="${data.image}">`;
+    if(data.text) html += `<p>${data.text}</p>`;
+    html += `</div>`;
+    postsDiv.innerHTML += html;
+  });
+}
+
+// Load posts immediately on page load
+loadPosts();
 </script>
 
 </body>
