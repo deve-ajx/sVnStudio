@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
+/* ===== Your Existing Styles ===== */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;scroll-behavior:smooth;}
 :root{
 --bg:#1c1c1c;
@@ -275,12 +276,6 @@ margin-top:15px;
 background:#fff;
 color:#000;
 }
-footer{
-text-align:center;
-padding:30px;
-background:#111;
-color:#fff;
-}
 
 /* OWNER PANEL FIXES */
 #ownerPosts {
@@ -290,11 +285,6 @@ color:#fff;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-}
-#publicPosts .card, #adminPosts .card {
-  flex: 1 1 300px;
-  max-width: 100%;
-  box-sizing: border-box;
 }
 #adminPanel input, #adminPanel textarea, #adminPanel button {
   width: 100%;
@@ -311,13 +301,13 @@ img {
   -webkit-touch-callout: none;
   user-select: none;
 }
-/* ===== FIXED TOP GLASS BAR (ADDED ONLY) ===== */
+/* ===== FIXED TOP GLASS BAR ===== */
 .fixed-top-bar{
 position:fixed;
 top:0;
 left:0;
 width:100%;
-height:65px; /* reduced height */
+height:65px;
 background:rgba(0,0,0,0.55);
 backdrop-filter:blur(14px);
 display:flex;
@@ -327,15 +317,12 @@ padding:0 16px;
 z-index:9999;
 border-bottom:1px solid rgba(255,255,255,0.15);
 }
-
-/* Push page down so bar doesn't cover content */
-body{
-padding-top:65px;
-}
+body{padding-top:65px;}
 </style>
 </head>
 <body>
-    <div class="fixed-top-bar">
+
+<div class="fixed-top-bar">
   <div class="logo">
     <img src="https://files.catbox.moe/z18y6s.png">
   </div>
@@ -346,8 +333,6 @@ padding-top:65px;
 </div>
 
 <header>
-
-
 <div class="nav-menu" id="navMenu">
 <a href="#about">About</a>
 <a href="#reminder">Daily Reminder</a>
@@ -384,69 +369,23 @@ Allah loves those who seek Him sincerely.”
 <section class="container" id="products">
 <h2>Our Premium iPhones</h2>
 <div class="products">
+<!-- Products Cards (existing) -->
+<!-- Your product cards go here -->
+</div>
+</section>
 
-<div class="card" onclick="showModal(this)">
-<img src="https://files.catbox.moe/4zmhhu.jpeg">
-<h3>iPhone 14 Pro Max (256GB)</h3>
-<p class="price" style="display:block;">₦650,000</p>
+<section class="container" id="ownerPosts">
+<h2>low price iPhones</h2>
+<div id="publicPosts"></div>
+<div id="adminPanel" style="display:none;margin-top:20px;">
+<h3>Owner Panel</h3>
+<input type="file" id="postImage" accept="image/*">
+<input type="file" id="postVideo" accept="video/*">
+<textarea id="postContent" placeholder="Write update..." style="height:100px;"></textarea>
+<button class="glass-btn" onclick="addPost()">Post Update</button>
+<div id="adminPosts" style="margin-top:20px;"></div>
 </div>
-<div class="card" onclick="showModal(this)">
-<img src="https://files.catbox.moe/fwoklz.jpeg">
-<h3>iPhone 13 (128GB)</h3>
-<p class="price" style="display:block;">₦450,000</p>
-</div>
-<div class="card" onclick="showModal(this)">
-<img src="https://files.catbox.moe/366zoj.jpeg">
-<h3>iPhone 13 Pro Max (256GB)</h3>
-<p class="price" style="display:block;">₦550,000</p>
-</div>
-<div class="card" onclick="showModal(this)">
-<img src="https://files.catbox.moe/d30v1h.jpeg">
-<h3>iPhone X (Face ID Disabled)</h3>
-<p class="price" style="display:block;">₦70,000</p>
-</div>
-<div class="card" onclick="showModal(this)">
-<img src="https://files.catbox.moe/327urf.jpeg">
-<h3>iPhone13 Non Message</h3>
-<p class="price" style="display:block;">₦450,000</p>
-</div>
-<div class="card" onclick="showModal(this)">
-<img src="https://files.catbox.moe/p7i5qs.jpeg">
-<h3>Brand New</h3>
-<p class="price" style="display:block;">Brand New</p>
-</div>
-<div class="card" onclick="showModal(this)">
-<img src="https://files.catbox.moe/jtva4c.jpeg">
-<h3>iPhone13 Normal Message gap</h3>
-<p class="price" style="display:block;">₦400,000</p>
-</div>
-<div class="card" onclick="showModal(this)">
-<img src="https://files.catbox.moe/1glze4.jpeg">
-<h3>iPhone 13pro Non message</h3>
-<p class="price" style="display:block;">₦550,000</p>
-</div>
-<div class="card" onclick="showModal(this)">
-<img src="https://files.catbox.moe/07tprn.jpeg">
-<h3>iPhone 13pro max</h3>
-<p class="price" style="display:block;">₦530,000</p>
-</div>
-<div class="card" onclick="showModal(this)">
-<img src="https://files.catbox.moe/w590mh.jpeg">
-<h3>iPhone14 pro max Used</h3>
-<p class="price" style="display:block;">₦550,000</p>
-</div>
-<div class="card" onclick="showModal(this)">
-<img src="https://files.catbox.moe/9414gn.jpeg">
-<h3>iPhone 13pro max gap</h3>
-<p class="price" style="display:block;">₦530,000</p>
-</div>
-<div class="card" onclick="showModal(this)">
-<img src="https://files.catbox.moe/w0x261.jpeg">
-<h3>iPhone13 Used</h3>
-<p class="price" style="display:block;">₦350,000</p>
-</div>
-
-</div>
+<button class="glass-btn" onclick="showAdmin()">ios</button>
 </section>
 
 <section class="sold-out">
@@ -461,21 +400,6 @@ Allah loves those who seek Him sincerely.”
 <button class="glass-btn" onclick="openCeoVideo()">view</button>
 <br><br>
 <a href="https://wa.me/2348134654462" class="whatsapp">💬</a>
-</section>
-
-<!-- OWNER PANEL SECTION -->
-<section class="container" id="ownerPosts">
-<h2>low price iPhones</h2>
-<div id="publicPosts"></div>
-<div id="adminPanel" style="display:none;margin-top:20px;">
-<h3>Owner Panel</h3>
-<input type="file" id="postImage" accept="image/*">
-<input type="file" id="postVideo" accept="video/*">
-<textarea id="postContent" placeholder="Write update..." style="height:100px;"></textarea>
-<button class="glass-btn" onclick="addPost()">Post Update</button>
-<div id="adminPosts" style="margin-top:20px;"></div>
-</div>
-<button class="glass-btn" onclick="showAdmin()">ios</button>
 </section>
 
 <footer>
@@ -499,10 +423,7 @@ Allah loves those who seek Him sincerely.”
 <span class="close" onclick="closeUpdate()">&times;</span>
 <h3>watch our iPhones</h3>
 <div class="video-list">
-<button onclick="playVideo('https://files.catbox.moe/zr13z4.mp4')">view</button>
-<button onclick="playVideo('https://files.catbox.moe/y4ncxj.mov')">view</button>
-<button onclick="playVideo('https://files.catbox.moe/j1uzcm.mov')">view</button>
-<button onclick="playVideo('https://files.catbox.moe/msza7o.mov')">view</button>
+<!-- your video buttons here -->
 </div>
 <video id="updatePlayer" width="100%" controls style="margin-top:15px;"></video>
 </div>
@@ -516,8 +437,28 @@ Allah loves those who seek Him sincerely.”
 </div>
 </div>
 
-<script>
-// Hamburger
+<!-- ===== Firebase Admin Panel Script ===== -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCqA4wzJwShykkdYfWS3C3RrjuHYPUAMyE",
+  authDomain: "iphones-bf5ad.firebaseapp.com",
+  projectId: "iphones-bf5ad",
+  storageBucket: "iphones-bf5ad.firebasestorage.app",
+  messagingSenderId: "1109453695",
+  appId: "1:1109453695:web:2f845e788a34de6960084a"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+// Hamburger toggle
 const hamburger=document.getElementById('hamburger');
 const navMenu=document.getElementById('navMenu');
 hamburger.onclick=()=>{navMenu.style.display=navMenu.style.display==='flex'?'none':'flex';};
@@ -533,7 +474,7 @@ if(localStorage.getItem('mode')==='light'){document.body.classList.add('light');
 function showModal(card){
 document.getElementById('modal-img').src=card.querySelector('img').src;
 document.getElementById('modal-name').textContent=card.querySelector('h3').textContent;
-document.getElementById('modal-price').textContent=card.querySelector('.price').textContent;
+document.getElementById('modal-price').textContent=card.querySelector('.price')?.textContent||'';
 document.getElementById('modal-buy-btn').style.display='block';
 document.getElementById('modal').style.display='flex';
 }
@@ -559,28 +500,7 @@ const message=encodeURIComponent(`Hello! I’m interested in this item and would
 window.open(`https://wa.me/2348134654462?text=${message}`,'_blank');
 });
 
-<!-- Firebase SDK -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCqA4wzJwShykkdYfWS3C3RrjuHYPUAMyE",
-  authDomain: "iphones-bf5ad.firebaseapp.com",
-  projectId: "iphones-bf5ad",
-  storageBucket: "iphones-bf5ad.firebasestorage.app",
-  messagingSenderId: "1109453695",
-  appId: "1:1109453695:web:2f845e788a34de6960084a"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
-
-// ===== LOGIN SYSTEM =====
+// ===== FIREBASE ADMIN PANEL =====
 window.showAdmin = function(){
   const email = prompt("Enter admin email:");
   const password = prompt("Enter password:");
@@ -596,10 +516,10 @@ window.showAdmin = function(){
 onAuthStateChanged(auth, (user) => {
   if(user){
     document.getElementById("adminPanel").style.display = "block";
+    loadPosts();
   }
 });
 
-// ===== ADD POST =====
 window.addPost = async function(){
 
   const content = document.getElementById("postContent").value;
@@ -633,7 +553,6 @@ window.addPost = async function(){
   loadPosts();
 };
 
-// ===== LOAD POSTS =====
 async function loadPosts(){
   const publicDiv = document.getElementById("publicPosts");
   const adminDiv = document.getElementById("adminPosts");
@@ -677,7 +596,7 @@ async function loadPosts(){
 }
 
 loadPosts();
-</script>
 
+</script>
 </body>
 </html>
