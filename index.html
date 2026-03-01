@@ -354,6 +354,7 @@ padding-top:65px;
 <a href="#products">Products</a>
 <a href="#ceo">CEO</a>
 <a href="#" onclick="toggleMode()">Dark / Light</a>
+<a href="#" onclick="showAdmin()">Admin</a>
 </div>
 
 <div class="header-content">
@@ -558,7 +559,124 @@ const message=encodeURIComponent(`Hello! I’m interested in this item and would
 window.open(`https://wa.me/2348134654462?text=${message}`,'_blank');
 });
 
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyCqA4wzJwShykkdYfWS3C3RrjuHYPUAMyE",
+  authDomain: "iphones-bf5ad.firebaseapp.com",
+  projectId: "iphones-bf5ad",
+  storageBucket: "iphones-bf5ad.firebasestorage.app",
+  messagingSenderId: "1109453695",
+  appId: "1:1109453695:web:2f845e788a34de6960084a"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+// ===== LOGIN SYSTEM =====
+window.showAdmin = function(){
+  const email = prompt("Enter admin email:");
+  const password = prompt("Enter password:");
+  
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      document.getElementById("adminPanel").style.display = "block";
+      loadPosts();
+    })
+    .catch(() => alert("Wrong login details"));
+};
+
+onAuthStateChanged(auth, (user) => {
+  if(user){
+    document.getElementById("adminPanel").style.display = "block";
+  }
+});
+
+// ===== ADD POST =====
+window.addPost = async function(){
+
+  const content = document.getElementById("postContent").value;
+  const imageFile = document.getElementById("postImage").files[0];
+  const videoFile = document.getElementById("postVideo").files[0];
+
+  let imageUrl = "";
+  let videoUrl = "";
+
+  if(imageFile){
+    const imageRef = ref(storage, "posts/" + Date.now() + imageFile.name);
+    await uploadBytes(imageRef, imageFile);
+    imageUrl = await getDownloadURL(imageRef);
+  }
+
+  if(videoFile){
+    const videoRef = ref(storage, "posts/" + Date.now() + videoFile.name);
+    await uploadBytes(videoRef, videoFile);
+    videoUrl = await getDownloadURL(videoRef);
+  }
+
+  await addDoc(collection(db, "posts"), {
+    content,
+    imageUrl,
+    videoUrl,
+    createdAt: serverTimestamp()
+  });
+
+  alert("Post uploaded!");
+  document.getElementById("postContent").value="";
+  loadPosts();
+};
+
+// ===== LOAD POSTS =====
+async function loadPosts(){
+  const publicDiv = document.getElementById("publicPosts");
+  const adminDiv = document.getElementById("adminPosts");
+
+  publicDiv.innerHTML="";
+  adminDiv.innerHTML="";
+
+  const q = query(collection(db,"posts"), orderBy("createdAt","desc"));
+  const querySnapshot = await getDocs(q);
+
+  querySnapshot.forEach((docSnap)=>{
+    const data = docSnap.data();
+
+    const card = document.createElement("div");
+    card.className="card";
+
+    if(data.imageUrl){
+      card.innerHTML += `<img src="${data.imageUrl}">`;
+    }
+
+    if(data.videoUrl){
+      card.innerHTML += `<video src="${data.videoUrl}" controls></video>`;
+    }
+
+    card.innerHTML += `<p>${data.content}</p>`;
+
+    publicDiv.appendChild(card);
+
+    const adminCard = card.cloneNode(true);
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent="Delete";
+    deleteBtn.className="glass-btn";
+    deleteBtn.onclick = async ()=>{
+      await deleteDoc(doc(db,"posts",docSnap.id));
+      loadPosts();
+    };
+
+    adminCard.appendChild(deleteBtn);
+    adminDiv.appendChild(adminCard);
+  });
+}
+
+loadPosts();
 </script>
 
 </body>
