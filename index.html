@@ -6,6 +6,7 @@
 <title>EmAji Phones Store</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
+/* Basic Styles */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;scroll-behavior:smooth;}
 :root{
 --bg:#1c1c1c;
@@ -15,64 +16,50 @@
 --glass:rgba(255,255,255,0.1);
 }
 body{background:var(--bg);color:var(--text);transition:0.4s;overflow-x:hidden;overscroll-behavior-y:none;padding-top:65px;}
-body.light{--bg:#f5f5f5;--text:#000;--card:#fff;--highlight:#f5c518;--glass:rgba(255,255,255,0.1);}
+body.light{--bg:#f5f5f5;--text:#000;--card:#fff;}
 .container{width:90%;max-width:1200px;margin:auto;}
 header{position:relative;height:85vh;min-height:520px;background:url('https://files.catbox.moe/tx6gix.jpeg') center/cover no-repeat;display:flex;align-items:center;justify-content:center;text-align:center;}
 header::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);}
 .header-content{position:relative;z-index:2;}
-.logo{width:60px;height:60px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:center;}
-.logo img{width:100%;height:100%;object-fit:cover;}
-h1{font-size:3rem;font-weight:800;} h1 span{color:var(--highlight);}
+h1{font-size:3rem;font-weight:800;}h1 span{color:var(--highlight);}
 p{margin:15px 0;}
 .glass-btn{padding:12px 22px;margin:5px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);background:var(--glass);backdrop-filter:blur(10px);color:var(--text);font-weight:600;cursor:pointer;transition:0.3s;}
 .glass-btn:hover{background:var(--highlight);color:#000;transform:translateY(-3px);}
+.fixed-top-bar{position:fixed;top:0;left:0;width:100%;height:65px;background:rgba(0,0,0,0.55);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:9999;border-bottom:1px solid rgba(255,255,255,0.15);}
+.logo{width:60px;height:60px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:center;}
+.logo img{width:100%;height:100%;object-fit:cover;}
 .hamburger{position:absolute;top:25px;right:20px;z-index:10;cursor:pointer;width:35px;height:25px;display:flex;flex-direction:column;justify-content:space-between;}
 .hamburger div{height:4px;background:#fff;border-radius:2px;}
 .nav-menu{position:fixed;top:85px;right:20px;background:var(--card);border-radius:10px;padding:10px;display:none;flex-direction:column;z-index:9;min-width:180px;}
 .nav-menu a{padding:10px;text-decoration:none;color:var(--text);}
 .nav-menu a:hover{background:var(--highlight);color:#000;border-radius:5px;}
-section{padding:80px 0;} h2{text-align:center;margin-bottom:30px;color:var(--highlight);}
-.reminder-card{background:var(--card);padding:30px;border-radius:20px;max-width:800px;margin:auto;text-align:center;box-shadow:0 0 20px rgba(0,0,0,0.3);}
-.reminder-card h3{margin-bottom:15px;color:var(--highlight);}
-body.light .reminder-card {background: #fff;color: black;} body.light .reminder-card h3 {color: black;}
-.premium-img{text-align:center;margin-top:40px;} .premium-img img{width:280px;border-radius:15px;}
+section{padding:80px 0;}
+h2{text-align:center;margin-bottom:30px;color:var(--highlight);}
 .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
 .card{background:var(--card);padding:20px;border-radius:15px;text-align:center;cursor:pointer;transition:0.3s;position:relative;}
 .card:hover{transform:scale(1.03);}
-.card img{width:100%;height:260px;object-fit:cover;border-radius:10px;margin-bottom:10px;}
-body.light .card {background: #fff;color: black;} body.light .card h3, body.light .card p {color: black;}
+.card img, .card video{width:100%;height:auto;border-radius:10px;margin-bottom:10px;}
+#ownerPosts #adminPosts button{margin-top:5px;width:100%;}
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:1000;}
 .modal-content{background:var(--card);padding:20px;border-radius:10px;max-width:500px;width:90%;text-align:center;position:relative;}
-.modal-content img{width:100%;border-radius:10px;margin-bottom:15px;}
 .close{position:absolute;top:10px;right:15px;cursor:pointer;font-size:20px;color:var(--highlight);}
-.video-list button{display:block;width:100%;margin:10px 0;padding:10px;border:none;cursor:pointer;background:var(--highlight);color:#000;}
-.ceo{text-align:center;} .ceo img{width:220px;height:220px;object-fit:cover;border-radius:50%;margin-bottom:20px;}
-body.light .ceo h2,body.light .ceo p,body.light .ceo-btn{color: black;}
-.sold-out{background:var(--card);padding:40px 20px;margin:50px auto;border-radius:20px;text-align:center;max-width:900px;box-shadow:0 0 20px rgba(0,0,0,0.3);}
-.sold-out h3{color:var(--highlight);margin-bottom:15px;} .sold-out p{font-size:1.1rem;}
-.whatsapp{position:fixed;bottom:20px;right:20px;width:60px;height:60px;background:var(--glass);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:2rem;text-decoration:none;color:var(--text);border:1px solid rgba(255,255,255,0.3);}
-.modal .buy-btn{padding:12px 22px;border:none;border-radius:10px;background:var(--highlight);color:#000;font-weight:600;cursor:pointer;margin-top:15px;}
-.modal .buy-btn:hover{background:#fff;color:#000;}
-#ownerPosts{overflow-x: hidden;}
-#publicPosts, #adminPosts{display: flex;flex-wrap: wrap;gap: 20px;}
-#adminPanel input, #adminPanel textarea, #adminPanel button{width: 100%;box-sizing: border-box;}
-#adminPanel video, #adminPanel img, #publicPosts video, #publicPosts img{max-width: 100%;height: auto;border-radius: 10px;}
-.fixed-top-bar{position:fixed;top:0;left:0;width:100%;height:65px;background:rgba(0,0,0,0.55);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:9999;border-bottom:1px solid rgba(255,255,255,0.15);}
+body.light .card, body.light .modal-content{background:#fff;color:#000;}
 </style>
 </head>
 <body>
 
+<!-- Top Bar -->
 <div class="fixed-top-bar">
   <div class="logo"><img src="https://files.catbox.moe/z18y6s.png"></div>
   <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
 </div>
 
+<!-- Navigation -->
 <header>
 <div class="nav-menu" id="navMenu">
-<a href="#about">About</a>
 <a href="#reminder">Daily Reminder</a>
 <a href="#products">Products</a>
-<a href="#ceo">CEO</a>
+<a href="#ownerPosts">Updates</a>
 <a href="#" onclick="toggleMode()">Dark / Light</a>
 <a href="#" onclick="showAdmin()">Admin</a>
 </div>
@@ -81,39 +68,57 @@ body.light .ceo h2,body.light .ceo p,body.light .ceo-btn{color: black;}
 <h1>EmAji <span>Phones Store</span></h1>
 <p>100% Original iPhones | Trusted in Maiduguri | Nationwide Delivery</p>
 <button class="glass-btn" onclick="document.getElementById('products').scrollIntoView()">View Phones</button>
-<button class="glass-btn" onclick="openUpdate()">watch</button>
 </div>
 </header>
 
+<!-- Reminder Section -->
+<section class="container" id="reminder">
+<h2>🌙 Ramadan Daily Reminder</h2>
+<p>“Ramadan is the month of mercy, forgiveness and freedom from the fire. Increase your prayers, give charity, and purify your heart. Allah loves those who seek Him sincerely.”</p>
+</section>
+
+<!-- Products Section -->
+<section class="container" id="products">
+<h2>Our Premium iPhones</h2>
+<div class="products" id="productCards"></div>
+</section>
+
+<!-- Owner/Admin Posts -->
 <section class="container" id="ownerPosts">
-<h2>low price iPhones</h2>
+<h2>Latest Updates</h2>
 <div id="publicPosts"></div>
+
 <div id="adminPanel" style="display:none;margin-top:20px;">
-<h3>Owner Panel</h3>
+<h3>Admin Panel</h3>
 <input type="file" id="postImage" accept="image/*">
 <input type="file" id="postVideo" accept="video/*">
 <textarea id="postContent" placeholder="Write update..." style="height:100px;"></textarea>
-<button class="glass-btn" id="postBtn" onclick="addPost()" disabled>Post Update</button>
-<div id="adminPosts" style="margin-top:20px;"></div>
+<button class="glass-btn" onclick="addPost()">Post Update</button>
+<div id="adminPosts"></div>
 </div>
-<button class="glass-btn" onclick="showAdmin()">ios</button>
+<button class="glass-btn" onclick="showAdmin()">Admin Login</button>
 </section>
 
-<footer>© 2026 EmAji Phones Store. All Rights Reserved.</footer>
+<!-- Footer -->
+<footer style="text-align:center;padding:30px;background:#111;color:#fff;">
+© 2026 EmAji Phones Store. All Rights Reserved.
+</footer>
 
+<!-- Firebase Scripts -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
+// ✅ New Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyCqA4wzJwShykkdYfWS3C3RrjuHYPUAMyE",
-  authDomain: "iphones-bf5ad.firebaseapp.com",
-  projectId: "iphones-bf5ad",
-  storageBucket: "iphones-bf5ad.firebasestorage.app",
-  messagingSenderId: "1109453695",
-  appId: "1:1109453695:web:2f845e788a34de6960084a"
+  apiKey: "AIzaSyBMwONrab6VFm2126UCdzuOYj-82gg0LQY",
+  authDomain: "emajiphones.firebaseapp.com",
+  projectId: "emajiphones",
+  storageBucket: "emajiphones.firebasestorage.app",
+  messagingSenderId: "307215362445",
+  appId: "1:307215362445:web:97ab2353692b2e9ba775c4"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -122,58 +127,59 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 // Hamburger toggle
-const hamburger=document.getElementById('hamburger');
-const navMenu=document.getElementById('navMenu');
-hamburger.onclick=()=>{navMenu.style.display=navMenu.style.display==='flex'?'none':'flex';};
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('navMenu');
+hamburger.onclick = () => { navMenu.style.display = navMenu.style.display==='flex'?'none':'flex'; };
 
 // Dark/Light
 function toggleMode(){
-document.body.classList.toggle('light');
-localStorage.setItem('mode',document.body.classList.contains('light')?'light':'dark');
+  document.body.classList.toggle('light');
+  localStorage.setItem('mode', document.body.classList.contains('light')?'light':'dark');
 }
 if(localStorage.getItem('mode')==='light'){document.body.classList.add('light');}
 
-// ADMIN LOGIN
+// ===== Admin Panel Functions =====
 window.showAdmin = function(){
   const email = prompt("Enter admin email:");
   const password = prompt("Enter password:");
-  signInWithEmailAndPassword(auth,email,password)
-    .then(()=>{document.getElementById("adminPanel").style.display="block";document.getElementById("postBtn").disabled=false;loadPosts();})
-    .catch(()=>alert("Wrong login details"));
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      document.getElementById("adminPanel").style.display = "block";
+      loadPosts();
+    })
+    .catch(() => alert("Wrong login details"));
 };
 
-onAuthStateChanged(auth,(user)=>{
+// Keep admin logged in
+onAuthStateChanged(auth, (user) => {
   if(user){
-    document.getElementById("adminPanel").style.display="block";
-    document.getElementById("postBtn").disabled=false;
+    document.getElementById("adminPanel").style.display = "block";
     loadPosts();
   }
 });
 
-// POST UPDATE FUNCTION
+// Upload post (text + image + video)
 window.addPost = async function(){
   const content = document.getElementById("postContent").value;
   const imageFile = document.getElementById("postImage").files[0];
   const videoFile = document.getElementById("postVideo").files[0];
 
-  let imageUrl="", videoUrl="";
+  let imageUrl = "", videoUrl = "";
+
   try{
     if(imageFile){
-      const imageRef = ref(storage, "posts/"+Date.now()+"_"+imageFile.name);
-      await uploadBytes(imageRef,imageFile);
+      const imageRef = ref(storage, "posts/" + Date.now() + imageFile.name);
+      await uploadBytes(imageRef, imageFile);
       imageUrl = await getDownloadURL(imageRef);
     }
     if(videoFile){
-      const videoRef = ref(storage, "posts/"+Date.now()+"_"+videoFile.name);
-      await uploadBytes(videoRef,videoFile);
+      const videoRef = ref(storage, "posts/" + Date.now() + videoFile.name);
+      await uploadBytes(videoRef, videoFile);
       videoUrl = await getDownloadURL(videoRef);
     }
 
-    await addDoc(collection(db,"posts"),{
-      content,
-      imageUrl,
-      videoUrl,
-      createdAt:serverTimestamp()
+    await addDoc(collection(db,"posts"), {
+      content, imageUrl, videoUrl, createdAt: serverTimestamp()
     });
 
     alert("Post uploaded!");
@@ -181,39 +187,49 @@ window.addPost = async function(){
     document.getElementById("postImage").value="";
     document.getElementById("postVideo").value="";
     loadPosts();
-  }catch(err){
-    console.error("Post upload failed:",err);
-    alert("Failed to upload post: "+err.message);
-  }
-};
 
-// LOAD POSTS FUNCTION
+  } catch(err){
+    alert("Failed to upload post: " + err.message);
+  }
+}
+
+// Load posts
 async function loadPosts(){
   const publicDiv = document.getElementById("publicPosts");
   const adminDiv = document.getElementById("adminPosts");
-  publicDiv.innerHTML="";
-  adminDiv.innerHTML="";
+  publicDiv.innerHTML = "";
+  adminDiv.innerHTML = "";
 
-  const q = query(collection(db,"posts"),orderBy("createdAt","desc"));
+  const q = query(collection(db,"posts"), orderBy("createdAt","desc"));
   const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((docSnap)=>{
+
+  querySnapshot.forEach(docSnap => {
     const data = docSnap.data();
-    const card = document.createElement("div"); card.className="card";
+
+    const card = document.createElement("div");
+    card.className="card";
     if(data.imageUrl) card.innerHTML += `<img src="${data.imageUrl}">`;
     if(data.videoUrl) card.innerHTML += `<video src="${data.videoUrl}" controls></video>`;
     card.innerHTML += `<p>${data.content}</p>`;
     publicDiv.appendChild(card);
 
+    // Admin view
     const adminCard = card.cloneNode(true);
     const deleteBtn = document.createElement("button");
-    deleteBtn.textContent="Delete"; deleteBtn.className="glass-btn";
-    deleteBtn.onclick = async ()=>{ await deleteDoc(doc(db,"posts",docSnap.id)); loadPosts(); };
+    deleteBtn.textContent = "Delete";
+    deleteBtn.className="glass-btn";
+    deleteBtn.onclick = async () => {
+      await deleteDoc(doc(db,"posts",docSnap.id));
+      loadPosts();
+    };
     adminCard.appendChild(deleteBtn);
     adminDiv.appendChild(adminCard);
   });
 }
 
+// Initial load
 loadPosts();
 </script>
+
 </body>
 </html>
