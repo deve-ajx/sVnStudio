@@ -165,7 +165,7 @@
 <a href="#about" class="block py-2 text-dark font-medium hover:text-primary">About</a>
 <a href="#testimonials" class="block py-2 text-dark font-medium hover:text-primary">Reviews</a>
 <a href="#contact" class="block py-2 text-dark font-medium hover:text-primary">Contact</a>
-
+<a href="#" onclick="openAdmin()" class="block py-2 text-red-500 font-medium">account</a>
 </div>
 
   <!-- Hero Section -->
@@ -304,6 +304,34 @@
       </div>
     </div>
   </section>
+  
+  <!-- ADMIN POSTS SECTION -->
+
+<section class="py-20 bg-gray-100">
+
+<div id="postPanel" class="hidden max-w-3xl mx-auto bg-white p-6 rounded-xl shadow">
+
+<h2 class="text-2xl font-bold mb-4">Create Post</h2>
+
+<input id="postTitle" type="text" placeholder="Post title"
+class="border p-2 w-full mb-3 rounded">
+
+<textarea id="postText" placeholder="Write something..."
+class="border p-2 w-full mb-3 rounded"></textarea>
+
+<input id="postImage" type="file" class="mb-3">
+
+<button onclick="createPost()" class="bg-black text-white px-6 py-2 rounded">
+Publish
+</button>
+
+</div>
+
+<div id="postsContainer"
+class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 px-6 mt-10">
+</div>
+
+</section>
 
   <!-- Banner Section -->
   <section class="py-20 bg-gradient-to-r from-primary to-secondary">
@@ -657,6 +685,27 @@
       </div>
     </div>
   </footer>
+  
+  <!-- ADMIN LOGIN MODAL -->
+
+<div id="adminModal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+
+<div class="bg-white p-6 rounded-xl w-80">
+
+<h2 class="text-xl font-bold mb-4">Admin Login</h2>
+
+<input id="adminEmail" type="email" placeholder="Email"
+class="border p-2 w-full mb-3 rounded">
+
+<input id="adminPass" type="password" placeholder="Password"
+class="border p-2 w-full mb-3 rounded">
+
+<button onclick="adminLogin()" class="bg-black text-white px-4 py-2 rounded w-full">
+Login
+</button>
+
+</div>
+</div>
 
   <!-- Back to Top Button -->
   <button id="backToTop" class="fixed bottom-8 right-8 bg-primary text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-secondary">
@@ -718,6 +767,95 @@
       });
     }
   </script>
+  <script>
+
+function openAdmin(){
+document.getElementById("adminModal").classList.remove("hidden")
+}
+
+function adminLogin(){
+
+const email=document.getElementById("adminEmail").value
+const pass=document.getElementById("adminPass").value
+
+auth.signInWithEmailAndPassword(email,pass)
+.then(()=>{
+alert("Admin Logged In")
+
+document.getElementById("adminModal").classList.add("hidden")
+
+document.getElementById("postPanel").classList.remove("hidden")
+
+})
+.catch(err=>alert(err.message))
+
+}
+
+</script>
+<script>
+
+function createPost(){
+
+const title=document.getElementById("postTitle").value
+const text=document.getElementById("postText").value
+const file=document.getElementById("postImage").files[0]
+
+const storageRef=storage.ref("posts/"+file.name)
+
+storageRef.put(file).then(snapshot=>{
+
+snapshot.ref.getDownloadURL().then(url=>{
+
+db.collection("posts").add({
+
+title:title,
+text:text,
+image:url,
+time:Date.now()
+
+})
+
+})
+
+})
+
+}
+
+</script>
+<script>
+
+db.collection("posts")
+.orderBy("time","desc")
+.onSnapshot(snapshot=>{
+
+const container=document.getElementById("postsContainer")
+
+container.innerHTML=""
+
+snapshot.forEach(doc=>{
+
+const post=doc.data()
+
+container.innerHTML+=`
+
+<div class="bg-white rounded-xl shadow-lg overflow-hidden">
+
+<img src="${post.image}" class="w-full h-60 object-cover">
+
+<div class="p-4">
+<h3 class="text-xl font-bold">${post.title}</h3>
+<p class="text-gray-600">${post.text}</p>
+</div>
+
+</div>
+
+`
+
+})
+
+})
+
+</script>
   <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -871,6 +1009,29 @@ const mobileMenu = document.getElementById("mobileMenu");
 mobileMenuButton.addEventListener("click", function() {
   mobileMenu.classList.toggle("hidden");
 });
+</script>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+ apiKey: "AIzaSyAUKZ42FzgwEMLHFigaUcDjAn2tRBxooOY",
+ authDomain: "dizdat-92a69.firebaseapp.com",
+ projectId: "dizdat-92a69",
+ storageBucket: "dizdat-92a69.firebasestorage.app",
+ messagingSenderId: "647043080822",
+ appId: "1:647043080822:web:67814df2c46e2fbc253557"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
 </script>
 
 </body>
