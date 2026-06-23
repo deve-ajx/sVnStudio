@@ -1,158 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recharge & Data Store</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Generator</title>
 
-  <!-- CSS goes here -->
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f2f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    height: 100vh;
+}
 
-    .container {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 400px;
-    }
+.container {
+    display: flex;
+    width: 100%;
+}
 
-    h1 {
-      text-align: center;
-      margin-bottom: 1rem;
-      color: #4CAF50;
-    }
+.form {
+    width: 35%;
+    padding: 20px;
+    background: #111827;
+    overflow-y: auto;
+}
 
-    form label {
-      display: block;
-      margin: 0.5rem 0 0.2rem;
-    }
+.preview {
+    width: 65%;
+    padding: 20px;
+    overflow-y: auto;
+}
 
-    form input, form select {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
+h2 {
+    color: #38bdf8;
+}
 
-    button {
-      width: 100%;
-      padding: 0.7rem;
-      background: #4CAF50;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
+input, textarea {
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background: #1f2937;
+    color: white;
+}
 
-    button:hover {
-      background: #45a049;
-    }
+button {
+    background: #38bdf8;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 6px;
+}
 
-    #status {
-      margin-top: 1rem;
-      text-align: center;
-      font-weight: bold;
-    }
-  </style>
+button:hover {
+    background: #0ea5e9;
+}
+
+.card {
+    background: #1f2937;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.name {
+    font-size: 28px;
+    color: #38bdf8;
+}
+
+.section {
+    margin-top: 15px;
+}
+
+.tag {
+    display: inline-block;
+    background: #0ea5e9;
+    padding: 5px 10px;
+    margin: 3px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Buy Airtime & Data</h1>
-    <form id="rechargeForm">
-      <label for="network">Select Network:</label>
-      <select id="network" required>
-        <option value="">--Choose Network--</option>
-        <option value="mtn">MTN</option>
-        <option value="glo">GLO</option>
-        <option value="airtel">Airtel</option>
-        <option value="9mobile">9mobile</option>
-      </select>
 
-      <label for="phone">Phone Number:</label>
-      <input type="tel" id="phone" placeholder="08012345678" required pattern="[0-9]{11}">
+<div class="container">
 
-      <label for="amount">Amount (₦):</label>
-      <input type="number" id="amount" placeholder="100" required min="50">
+<!-- FORM -->
+<div class="form">
+<h2>Portfolio Builder</h2>
 
-      <button type="submit">Pay & Recharge</button>
-    </form>
-    <div id="status"></div>
-  </div>
+<input id="name" placeholder="Your Name">
+<textarea id="bio" placeholder="Your Bio"></textarea>
+<input id="skills" placeholder="Skills (comma separated)">
+<textarea id="projects" placeholder="Projects (comma separated)"></textarea>
+<input id="contact" placeholder="Contact (email / phone)">
 
-  <!-- Paystack JS -->
-  <script src="https://js.paystack.co/v1/inline.js"></script>
+<button onclick="generate()">Generate Portfolio</button>
+<button onclick="downloadHTML()">Download Portfolio</button>
+</div>
 
-  <!-- JS goes here -->
-  <script>
-    const form = document.getElementById('rechargeForm');
-    const statusDiv = document.getElementById('status');
+<!-- PREVIEW -->
+<div class="preview">
+<div id="output" class="card">
+<h1 class="name">Your Name</h1>
+<p>Your bio will appear here...</p>
 
-    // Replace with your Paystack public key
-    const PAYSTACK_PUBLIC_KEY = "pk_test_xxxxxxxxxxxxxxxxxxxxx"; 
+<div class="section">
+<h3>Skills</h3>
+<div id="skillsOut"></div>
+</div>
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
+<div class="section">
+<h3>Projects</h3>
+<ul id="projectsOut"></ul>
+</div>
 
-      const network = document.getElementById('network').value;
-      const phone = document.getElementById('phone').value;
-      const amount = parseInt(document.getElementById('amount').value) * 100; // Paystack expects kobo
+<div class="section">
+<h3>Contact</h3>
+<p id="contactOut"></p>
+</div>
 
-      if(!network || !phone || !amount) {
-        statusDiv.innerText = "Please fill all fields correctly.";
-        return;
-      }
+</div>
+</div>
 
-      // Paystack Payment
-      let handler = PaystackPop.setup({
-        key: PAYSTACK_PUBLIC_KEY,
-        email: "customer@example.com",
-        amount: amount,
-        currency: "NGN",
-        ref: 'RC' + Math.floor((Math.random() * 1000000000) + 1),
-        callback: function(response) {
-          statusDiv.innerText = "Payment successful! Ref: " + response.reference;
+</div>
 
-          // Call your recharge API here (Peyflex, Vtpass, etc.)
-          /*
-          fetch('https://api.peyflex.com/vtu/recharge', {
-            method: 'POST',
-            headers: {
-              'Authorization': 'Bearer YOUR_API_KEY',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              network: network,
-              phone: phone,
-              amount: amount / 100
-            })
-          })
-          .then(res => res.json())
-          .then(data => {
-            statusDiv.innerText += "\nRecharge status: " + data.status;
-          })
-          .catch(err => {
-            statusDiv.innerText += "\nError sending recharge: " + err;
-          });
-          */
-        },
-        onClose: function() {
-          statusDiv.innerText = "Transaction was not completed.";
+<script>
+function generate() {
+    let name = document.getElementById("name").value;
+    let bio = document.getElementById("bio").value;
+    let skills = document.getElementById("skills").value.split(",");
+    let projects = document.getElementById("projects").value.split(",");
+    let contact = document.getElementById("contact").value;
+
+    document.querySelector(".name").innerText = name || "Your Name";
+    document.querySelector(".card p").innerText = bio || "Your bio will appear here...";
+
+    let skillsOut = document.getElementById("skillsOut");
+    skillsOut.innerHTML = "";
+    skills.forEach(s => {
+        if (s.trim()) {
+            let span = document.createElement("span");
+            span.className = "tag";
+            span.innerText = s.trim();
+            skillsOut.appendChild(span);
         }
-      });
-
-      handler.openIframe();
     });
-  </script>
+
+    let projectsOut = document.getElementById("projectsOut");
+    projectsOut.innerHTML = "";
+    projects.forEach(p => {
+        if (p.trim()) {
+            let li = document.createElement("li");
+            li.innerText = p.trim();
+            projectsOut.appendChild(li);
+        }
+    });
+
+    document.getElementById("contactOut").innerText = contact;
+}
+
+function downloadHTML() {
+    let content = document.getElementById("output").outerHTML;
+
+    let fullPage = `
+    <html>
+    <head>
+    <title>My Portfolio</title>
+    <style>
+        body { font-family: Arial; padding: 40px; background:#0f172a; color:white; }
+        .card { background:#1f2937; padding:20px; border-radius:10px; }
+        .name { color:#38bdf8; font-size:30px; }
+        .tag { background:#0ea5e9; padding:5px 10px; margin:3px; display:inline-block; border-radius:5px; }
+    </style>
+    </head>
+    <body>
+        ${content}
+    </body>
+    </html>
+    `;
+
+    let blob = new Blob([fullPage], { type: "text/html" });
+    let a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "portfolio.html";
+    a.click();
+}
+</script>
+
 </body>
 </html>
