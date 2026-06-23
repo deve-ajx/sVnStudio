@@ -3,78 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio Generator</title>
+<title>Pro Portfolio Builder</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0f172a;
+    font-family: 'Inter', sans-serif;
+    background: #0b1220;
     color: white;
     display: flex;
     height: 100vh;
 }
 
-.container {
-    display: flex;
-    width: 100%;
-}
-
-.form {
+/* LEFT PANEL */
+.panel {
     width: 35%;
-    padding: 20px;
-    background: #111827;
-    overflow-y: auto;
-}
-
-.preview {
-    width: 65%;
+    background: #0f172a;
     padding: 20px;
     overflow-y: auto;
+    border-right: 1px solid #1e293b;
 }
 
 h2 {
     color: #38bdf8;
+    margin-bottom: 10px;
 }
 
 input, textarea {
     width: 100%;
-    margin: 8px 0;
     padding: 10px;
-    border: none;
-    border-radius: 6px;
-    background: #1f2937;
+    margin: 6px 0;
+    border-radius: 8px;
+    border: 1px solid #1e293b;
+    background: #111827;
     color: white;
 }
 
 button {
-    background: #38bdf8;
-    border: none;
-    padding: 10px;
     width: 100%;
+    padding: 10px;
     margin-top: 10px;
-    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background: #38bdf8;
     font-weight: bold;
-    border-radius: 6px;
+    cursor: pointer;
 }
 
 button:hover {
     background: #0ea5e9;
 }
 
-.card {
-    background: #1f2937;
-    padding: 20px;
-    border-radius: 10px;
+/* RIGHT PREVIEW */
+.preview {
+    width: 65%;
+    overflow-y: auto;
+    padding: 40px;
+}
+
+/* PORTFOLIO STYLE */
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1e293b;
+}
+
+.avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #38bdf8;
 }
 
 .name {
     font-size: 28px;
-    color: #38bdf8;
+    font-weight: 700;
+}
+
+.role {
+    color: #94a3b8;
 }
 
 .section {
-    margin-top: 15px;
+    margin-top: 25px;
+}
+
+.section h3 {
+    color: #38bdf8;
+    margin-bottom: 10px;
+}
+
+.card {
+    background: #111827;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #1e293b;
 }
 
 .tag {
@@ -82,112 +111,158 @@ button:hover {
     background: #0ea5e9;
     padding: 5px 10px;
     margin: 3px;
-    border-radius: 5px;
+    border-radius: 6px;
     font-size: 12px;
+}
+
+.small {
+    color: #94a3b8;
+    font-size: 14px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- INPUT PANEL -->
+<div class="panel">
+<h2>Pro Portfolio Builder</h2>
 
-<!-- FORM -->
-<div class="form">
-<h2>Portfolio Builder</h2>
+<input id="name" placeholder="Full Name">
+<input id="role" placeholder="Role (e.g. Frontend Developer)">
+<textarea id="bio" placeholder="Short Bio"></textarea>
 
-<input id="name" placeholder="Your Name">
-<textarea id="bio" placeholder="Your Bio"></textarea>
 <input id="skills" placeholder="Skills (comma separated)">
 <textarea id="projects" placeholder="Projects (comma separated)"></textarea>
-<input id="contact" placeholder="Contact (email / phone)">
+
+<input id="contact" placeholder="Email / Phone">
+
+<input id="photo" type="file" accept="image/*">
 
 <button onclick="generate()">Generate Portfolio</button>
-<button onclick="downloadHTML()">Download Portfolio</button>
+<button onclick="download()">Download Portfolio</button>
 </div>
 
 <!-- PREVIEW -->
 <div class="preview">
-<div id="output" class="card">
-<h1 class="name">Your Name</h1>
-<p>Your bio will appear here...</p>
+<div id="portfolio">
 
+<!-- HERO -->
+<div class="hero">
+<img id="avatar" class="avatar" src="https://via.placeholder.com/90">
+<div>
+<div class="name" id="pName">Your Name</div>
+<div class="role" id="pRole">Your Role</div>
+</div>
+</div>
+
+<!-- BIO -->
+<div class="section">
+<h3>About Me</h3>
+<p id="pBio" class="small">Your bio appears here...</p>
+</div>
+
+<!-- SKILLS -->
 <div class="section">
 <h3>Skills</h3>
-<div id="skillsOut"></div>
+<div id="pSkills"></div>
 </div>
 
+<!-- PROJECTS -->
 <div class="section">
 <h3>Projects</h3>
-<ul id="projectsOut"></ul>
+<div id="pProjects"></div>
 </div>
 
+<!-- CONTACT -->
 <div class="section">
 <h3>Contact</h3>
-<p id="contactOut"></p>
+<p id="pContact" class="small"></p>
 </div>
 
 </div>
-</div>
-
 </div>
 
 <script>
+
+let imageBase64 = "";
+
+document.getElementById("photo").addEventListener("change", function(e) {
+    let reader = new FileReader();
+    reader.onload = function() {
+        imageBase64 = reader.result;
+        document.getElementById("avatar").src = imageBase64;
+    };
+    reader.readAsDataURL(e.target.files[0]);
+});
+
 function generate() {
-    let name = document.getElementById("name").value;
-    let bio = document.getElementById("bio").value;
+    document.getElementById("pName").innerText =
+        document.getElementById("name").value || "Your Name";
+
+    document.getElementById("pRole").innerText =
+        document.getElementById("role").value || "Your Role";
+
+    document.getElementById("pBio").innerText =
+        document.getElementById("bio").value || "Your bio here...";
+
+    document.getElementById("pContact").innerText =
+        document.getElementById("contact").value;
+
+    // Skills
     let skills = document.getElementById("skills").value.split(",");
-    let projects = document.getElementById("projects").value.split(",");
-    let contact = document.getElementById("contact").value;
-
-    document.querySelector(".name").innerText = name || "Your Name";
-    document.querySelector(".card p").innerText = bio || "Your bio will appear here...";
-
-    let skillsOut = document.getElementById("skillsOut");
-    skillsOut.innerHTML = "";
+    let skillsDiv = document.getElementById("pSkills");
+    skillsDiv.innerHTML = "";
     skills.forEach(s => {
         if (s.trim()) {
             let span = document.createElement("span");
             span.className = "tag";
             span.innerText = s.trim();
-            skillsOut.appendChild(span);
+            skillsDiv.appendChild(span);
         }
     });
 
-    let projectsOut = document.getElementById("projectsOut");
-    projectsOut.innerHTML = "";
+    // Projects
+    let projects = document.getElementById("projects").value.split(",");
+    let projDiv = document.getElementById("pProjects");
+    projDiv.innerHTML = "";
+
     projects.forEach(p => {
         if (p.trim()) {
-            let li = document.createElement("li");
-            li.innerText = p.trim();
-            projectsOut.appendChild(li);
+            let div = document.createElement("div");
+            div.className = "card";
+            div.innerText = p.trim();
+            projDiv.appendChild(div);
         }
     });
-
-    document.getElementById("contactOut").innerText = contact;
 }
 
-function downloadHTML() {
-    let content = document.getElementById("output").outerHTML;
+function download() {
+    let html = document.getElementById("portfolio").outerHTML;
 
-    let fullPage = `
-    <html>
-    <head>
-    <title>My Portfolio</title>
-    <style>
-        body { font-family: Arial; padding: 40px; background:#0f172a; color:white; }
-        .card { background:#1f2937; padding:20px; border-radius:10px; }
-        .name { color:#38bdf8; font-size:30px; }
-        .tag { background:#0ea5e9; padding:5px 10px; margin:3px; display:inline-block; border-radius:5px; }
-    </style>
-    </head>
-    <body>
-        ${content}
-    </body>
-    </html>
-    `;
+    let full = `
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Portfolio</title>
+<style>
+body { font-family: Inter, sans-serif; background:#0b1220; color:white; padding:40px; }
+.hero { display:flex; gap:20px; align-items:center; border-bottom:1px solid #1e293b; padding-bottom:20px; }
+.avatar { width:90px; height:90px; border-radius:50%; }
+.name { font-size:28px; font-weight:bold; }
+.role { color:#94a3b8; }
+.section { margin-top:25px; }
+.card { background:#111827; padding:15px; border-radius:10px; margin-bottom:10px; }
+.tag { background:#0ea5e9; padding:5px 10px; margin:3px; display:inline-block; border-radius:6px; }
+</style>
+</head>
+<body>
+${html}
+</body>
+</html>
+`;
 
-    let blob = new Blob([fullPage], { type: "text/html" });
+    let blob = new Blob([full], { type: "text/html" });
     let a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = "portfolio.html";
